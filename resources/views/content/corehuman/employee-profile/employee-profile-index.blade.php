@@ -34,7 +34,7 @@
                 @elseif(session()->has('error'))
                     <x-alert errorMessage="{{ session('error') }}" />
                 @endif
-                
+
                 <table id="dataTable" class="datatables-projects table border-top">
                     <thead>
                         <tr>
@@ -59,7 +59,7 @@
                                     : 'Old Hired';
                                 $dateFormatted = $dateHired->format('F d, Y');
                             @endphp
-                                <td>{{ $employee->employee_id }}</td>
+                                <td>{{ $employee->employee_code }}</td>
                                 <td>{{ $employee->employee_name }}</td>
                                 <td>{{ $employee->gender }}</td>
                                 <td>{{ $employee->jobPosition->title }}</td>
