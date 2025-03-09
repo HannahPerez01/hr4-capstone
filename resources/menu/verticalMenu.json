@@ -46,10 +46,10 @@
           "slug": "Performance-view"
         },
         {
-          "url": "Compensation/view",
+          "url": "compensation",
           "name": "Compensation and Payroll",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "Compensation-view"
+          "slug": "Compensation"
         },
         {
           "url": "Leavemanagement/view",
