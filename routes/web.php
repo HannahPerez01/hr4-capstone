@@ -141,6 +141,7 @@ use App\Http\Controllers\form_wizard\Icons as FormWizardIcons;
 use App\Http\Controllers\user_interface\PaginationBreadcrumbs;
 use App\Http\Controllers\wizard_example\Checkout as WizardCheckout;
 use App\Http\Controllers\form_wizard\Numbered as FormWizardNumbered;
+use App\Http\Controllers\CompensationController;
 
 Route::middleware('auth')->group(function () {
 
@@ -192,6 +193,15 @@ Route::middleware('auth')->group(function () {
             Route::put('/employee-profile/update/{id}', 'update')->name('employee-profile-update');
         });
 
+    Route::controller(CompensationController::class)
+        ->group(function () {
+            Route::get('/compensation', 'index')->name('compensation');
+            Route::get('/compensation/create', 'create')->name('compensation-create');
+            Route::get('/compensation/edit/{id}', 'edit')->name('compensation-edit');
+            Route::post('/compensation/store', 'store')->name('compensation-store');
+            Route::put('/compensation/update/{id}', 'update')->name('compensation-update');
+        });
+
     Route::get('/time/and/attendance', [App\Http\Controllers\timeandattendance::class, 'index'])->name('time-and-attendance');
 
 
@@ -200,12 +210,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/analytic/view', [App\Http\Controllers\analytic::class, 'index'])->name('analytic-view');
 
-    Route::get('/compensation/view', [App\Http\Controllers\compensationController::class, 'index'])->name('compensation-view');
-    Route::post('/compensation', [App\Http\Controllers\compensationController::class, 'store'])->name('compensation.store');
-
     Route::get('/Leavemanagement/view', [App\Http\Controllers\LeaveManagementController::class, 'index'])->name('Leavemanagement-view');
-
-    Route::get('/Compensation/view', [App\Http\Controllers\compensationControl::class, 'index'])->name('Compensation-view');
 
     Route::get('/Performance/view', [App\Http\Controllers\PerformanceController::class, 'index'])->name('Performance-view');
 
