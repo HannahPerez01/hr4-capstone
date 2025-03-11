@@ -30,7 +30,7 @@
     <!-- Canonical SEO -->
     <link rel="canonical" href="{{ config('variables.productPage') ? config('variables.productPage') : '' }}">
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo/brand_logo.webp') }}" />
 
     {{-- Sweet Alert --}}
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"

@@ -30,7 +30,7 @@ class LoginBasic extends Controller
             $this->fireLockoutEvent($request);
 
             return redirect()->back()->with('lockout', true);
-            
+
         }
 
         $user = User::where('email', $request->email)->first();
