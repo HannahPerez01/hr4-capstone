@@ -19,9 +19,9 @@
     @vite('resources/assets/js/app-chat.js')
 @endsection
 @section('content')
-    <div class="">
+    <div class="container">
         <div class="card">
-            <div style="display:flex;">
+            <div>
                 <button type="button" class="btn btn-primary m-3"
                     onclick="location.href = '{{ route('compensation-create') }}'">Add Compensation</button>
             </div>
@@ -32,7 +32,7 @@
                 <x-alert errorMessage="{{ session('error') }}" />
             @endif
 
-            <div class="card-datatable table-responsive">
+            <div class="card-datatable table-responsive p-5">
                 <table id="dataTable" class="datatables-projects table border-top">
                     <thead>
                         <tr>
@@ -49,13 +49,13 @@
                         @foreach ($compensations as $compensation)
                             <tr>
                                 <td>{{ $compensation->employee->employee_code }}</td>
-                                <td>{{ $compensation->employee->employee_name }}</td>
+                                <td>{{ $compensation->employee->name }}</td>
                                 <td></td>
                                 <td></td>
                                 <td>{{ $compensation->transaction_type }}</td>
                                 <td>{{ $compensation->status }}</td>
                                 <td class="d-flex gap-2">
-                                    <button type="button" class="btn btn-success btn-sm" onclick="location.href = '{{ route('compensation-edit', ['id' => $compensation->compensation_id]) }}'">Update</button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="location.href = '{{ route('compensation-edit', ['id' => $compensation->id]) }}'">Update</button>
                                     <button class="btn btn-danger btn-flat btn-sm">Delete</button>
                                 </td>
                             </tr>
@@ -68,15 +68,11 @@
 @endsection
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datat ables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 <script>
     // DataTable
     $(document).ready(function () {
         new DataTable('#dataTable'); // Use the correct ID
     });
 
-    $(document).on('click', '#modal_close', function () {
-        $('#smallModal').modal('hide');
-
-    });
 </script>

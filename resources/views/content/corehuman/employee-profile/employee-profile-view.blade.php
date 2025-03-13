@@ -1,7 +1,6 @@
 <?php use Carbon\Carbon; ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
 
 @extends('layouts/layoutMaster')
 
@@ -39,7 +38,7 @@
                         : 'Old Hired';
                     $dateFormatted = $dateHired->format('F d, Y');
                 @endphp
-                <h1>{{ $employee->employee_name }}</h1>
+                <h1>{{ $employee->name }}</h1>
                 <h5>Job Position: {{ $employee->jobPosition->title }}</h5>
 
                 <p>Gender: {{ $employee->gender }}</p>
@@ -50,12 +49,4 @@
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.datat ables.net/2.1.8/js/dataTables.js"></script>
-    <script>
-        $(document).ready(function () {
-            new DataTable('#dataTable'); // Use the correct ID
-        });
-    </script>
 @endsection

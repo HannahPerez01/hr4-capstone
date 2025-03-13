@@ -31,7 +31,7 @@ class EmployeeProfileController extends Controller
 
     public function view($id)
     {
-        $employee = $this->model->where('employee_id', $id)->with('jobPosition')->first();
+        $employee = $this->model->where('id', $id)->with('jobPosition')->first();
 
         return view('content.corehuman.employee-profile.employee-profile-view', [
             'employee' => $employee
@@ -40,7 +40,7 @@ class EmployeeProfileController extends Controller
 
     public function edit($id)
     {
-        $employee = $this->model->where('employee_id', $id)->with('jobPosition')->first();
+        $employee = $this->model->where('id', $id)->with('jobPosition')->first();
         $jobPositions = JobPosition::query()->get();
         $genderEnums = EmployeeGenderEnum::toOptions();
         $departmentEnums = DepartmentEnum::toOptions();
@@ -59,8 +59,8 @@ class EmployeeProfileController extends Controller
 
     public function update(Request $request, $id)
     {
-        $employee = $this->model->where('employee_id', $id)->first();
-        $employee->employee_name = $request->employee_name;
+        $employee = $this->model->where('id', $id)->first();
+        $employee->name = $request->employee_name;
         $employee->gender = $request->gender;
         $employee->department = $request->department;
         $employee->job_position_id = $request->job_position_id;

@@ -27,7 +27,7 @@
 
             <div class="card-datatable">
                 <div class="p-5">
-                    <form action="{{ route('compensation-update', ['id' => $compensation->compensation_id]) }}"
+                    <form action="{{ route('compensation-update', ['id' => $compensation->id]) }}"
                         method="POST" class="row">
                         @csrf
                         @method('PUT')
@@ -35,10 +35,10 @@
                         <div class="col-md-6">
                             <label for="employee_id" class="form-label">Employee</label>
                             <select name="employee_id" id="employee_id" class="form-select" required>
-                                <option value="{{ $compensation->employee_id }}" selected>
-                                    {{ $compensation->employee->employee_name }}</option>
+                                <option value="{{ $compensation->id }}" selected>
+                                    {{ $compensation->employee->name }}</option>
                                 @foreach ($employees as $employee)
-                                    <option value="{{ $employee->employee_id }}">{{ $employee->employee_name }}</option>
+                                    <option value="{{ $employee->id }}">{{ $employee->name }}</option>
                                 @endforeach
                             </select>
 

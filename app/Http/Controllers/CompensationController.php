@@ -62,7 +62,7 @@ class CompensationController extends Controller
     }
 
     public function edit($id) {
-        $compensation = $this->model->where('compensation_id', $id)->with('employee')->first();
+        $compensation = $this->model->where('id', $id)->with('employee')->first();
         $employees = $this->employee->query()->get();
         $transactionEnums = TransactionTypeEnum::toOptions();
         $statusEnums = StatusEnum::toOptions();
@@ -77,7 +77,7 @@ class CompensationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $compensation = $this->model->where('compensation_id', $id)->first();
+        $compensation = $this->model->where('id', $id)->first();
         $compensation->employee_id = $request->employee_id;
         $compensation->transaction_type = $request->transaction;
         $compensation->status = $request->status;

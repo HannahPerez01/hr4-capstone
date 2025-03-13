@@ -28,7 +28,7 @@
 
     <div class="">
         <div class="card">
-            <div class="card-datatable table-responsive p-3">
+            <div class="card-datatable table-responsive p-5">
                 @if (session()->has('success'))
                     <x-alert successMessage="{{ session('success') }}" />
                 @elseif(session()->has('error'))
@@ -60,7 +60,7 @@
                                 $dateFormatted = $dateHired->format('F d, Y');
                             @endphp
                                 <td>{{ $employee->employee_code }}</td>
-                                <td>{{ $employee->employee_name }}</td>
+                                <td>{{ $employee->name }}</td>
                                 <td>{{ $employee->gender }}</td>
                                 <td>{{ $employee->jobPosition->title }}</td>
                                 <td>{{ $employee->department }}</td>
@@ -81,8 +81,8 @@
                                 <td>{{ $employee->status }}</td>
                                 <td class="d-flex gap-2">
                                     <!-- Add action buttons or links here -->
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="location.href = '{{ route('employee-profile-view', ['id' => $employee->employee_id]) }}'">View</button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="location.href = '{{ route('employee-profile-edit', ['id' => $employee->employee_id]) }}'">Edit</button>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="location.href = '{{ route('employee-profile-view', ['id' => $employee->id]) }}'">View</button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="location.href = '{{ route('employee-profile-edit', ['id' => $employee->id]) }}'">Edit</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -93,7 +93,7 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.datat ables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>
         $(document).ready(function() {
             new DataTable('#dataTable'); // Use the correct ID

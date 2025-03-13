@@ -36,7 +36,7 @@
                             <select name="employee_id" id="employee_id" class="form-select" required>
                                 <option value="" disabled selected>Select Employee</option>
                                 @foreach ($employees as $employee)
-                                    <option value="{{ $employee->employee_id }}">{{ $employee->employee_name }}</option>
+                                    <option value="{{ $employee->id }}">{{ $employee->name }}</option>
                                 @endforeach
                             </select>
 

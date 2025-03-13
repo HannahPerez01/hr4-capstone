@@ -29,12 +29,11 @@
     <div class="">
         <div class="card">
             <div class="pt-5 px-5">
-                <button class="btn btn-dark btn-sm"
-                    onclick="location.href = '{{ route('employee-profile') }}'">Back</button>
+                <button class="btn btn-dark btn-sm" onclick="location.href = '{{ route('employee-profile') }}'">Back</button>
             </div>
             <div class="card-datatable">
                 <div class="p-5">
-                    <form action="{{ route('employee-profile-update', ['id' => $employee->employee_id]) }}" method="POST"
+                    <form action="{{ route('employee-profile-update', ['id' => $employee->id]) }}" method="POST"
                         class="row">
                         @csrf
                         @method('PUT')
@@ -42,7 +41,7 @@
                         <div class="col-md-12">
                             <label for="" class="form-label">Employee Name</label>
                             <input type="text" name="employee_name" id="employee_name" class="form-control"
-                                value="{{ $employee->employee_name ?? old('employee_name') }}" required>
+                                value="{{ $employee->name ?? old('employee_name') }}" required>
 
                             @if ($errors->has('employee_name'))
                                 <div class="text-danger">
@@ -154,7 +153,7 @@
                         </div>
 
                         <div class="mt-5">
-                                <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>
@@ -165,7 +164,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datat ables.net/2.1.8/js/dataTables.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             new DataTable('#dataTable'); // Use the correct ID
         });
     </script>

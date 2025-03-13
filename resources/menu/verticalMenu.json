@@ -78,10 +78,10 @@
       "slug": "layouts",
       "submenu": [
         {
-          "url": "compensation/view",
+          "url": "compensation-plan",
           "name": "Compensation Plan",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "compensation-view"
+          "slug": "compensation-plan"
         },
         {
           "url": "salary/view",

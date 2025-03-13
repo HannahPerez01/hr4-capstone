@@ -11,8 +11,7 @@ class Compensation extends Model
 {
     use HasFactory;
 
-    protected $table = "hr4_compensation";
-    protected $primaryKey = "compensation_id";
+    protected $table = "compensations";
     protected $fillable = [
         'employee_id',
         'project_name',
@@ -23,6 +22,6 @@ class Compensation extends Model
 
     public function employee(): BelongsTo
     {
-        return $this->belongsTo(Employee::class, 'employee_id', 'employee_id');
+        return $this->belongsTo(Employee::class);
     }
 }

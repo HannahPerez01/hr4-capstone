@@ -69,6 +69,7 @@ use App\Http\Controllers\user_interface\Modals;
 use App\Http\Controllers\user_interface\Navbar;
 use App\Http\Controllers\user_interface\Toasts;
 use App\Http\Controllers\UseraccountController;
+use App\Http\Controllers\CompensationController;
 use App\Http\Controllers\extended_ui\SweetAlert;
 use App\Http\Controllers\form_elements\Switches;
 use App\Http\Controllers\front_pages\HelpCenter;
@@ -105,6 +106,7 @@ use App\Http\Controllers\wizard_example\CreateDeal;
 use App\Http\Controllers\apps\UserViewNotifications;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\authentications\LoginCover;
+use App\Http\Controllers\CompensationPlanController;
 use App\Http\Controllers\form_layouts\StickyActions;
 use App\Http\Controllers\form_validation\Validation;
 use App\Http\Controllers\pages\MiscUnderMaintenance;
@@ -141,7 +143,6 @@ use App\Http\Controllers\form_wizard\Icons as FormWizardIcons;
 use App\Http\Controllers\user_interface\PaginationBreadcrumbs;
 use App\Http\Controllers\wizard_example\Checkout as WizardCheckout;
 use App\Http\Controllers\form_wizard\Numbered as FormWizardNumbered;
-use App\Http\Controllers\CompensationController;
 
 Route::middleware('auth')->group(function () {
 
@@ -201,6 +202,13 @@ Route::middleware('auth')->group(function () {
             Route::post('/compensation/store', 'store')->name('compensation-store');
             Route::put('/compensation/update/{id}', 'update')->name('compensation-update');
         });
+
+    Route::controller(CompensationPlanController::class)
+        ->group(function () {
+            Route::get('/compensation-plan', 'index')->name('compensation-plan');
+        });
+
+
 
     Route::get('/time/and/attendance', [App\Http\Controllers\timeandattendance::class, 'index'])->name('time-and-attendance');
 
