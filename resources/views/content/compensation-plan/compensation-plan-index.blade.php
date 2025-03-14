@@ -73,6 +73,55 @@
                 }
                 html += `<h1 class="mt-5">${jobTitle}</h1>`
 
+                // 🏆 Salary Grade Levels Table
+                html += `<h3 class="mt-5">Salary Grade Levels</h3>
+                <div class="table-responsive">
+                     <table border="1" class="table">
+                         <tr>
+                             <th>Level</th>
+                             <th>Step 1</th>
+                             <th>Step 2</th>
+                             <th>Step 3</th>
+                             <th>Step 4</th>
+                             <th>Step 5</th>
+                             <th>Step 6</th>
+                             <th>Step 7</th>
+                             <th>Step 8</th>
+                         </tr>`;
+
+                group.salary_grade_level.forEach(level => {
+                    html += `<tr>
+                             <td>${level.level}</td>
+                             <td>${level.step_1}</td>
+                             <td>${level.step_2}</td>
+                             <td>${level.step_3}</td>
+                             <td>${level.step_4}</td>
+                             <td>${level.step_5}</td>
+                             <td>${level.step_6}</td>
+                             <td>${level.step_7}</td>
+                             <td>${level.step_8}</td>
+                         </tr>`;
+                });
+
+                html += `</table>
+                </div>`;
+
+                html += `<h3 class="mt-5">Overtime Pay Computation</h3>
+                <div class="w-100 border p-3">
+                    <div>
+                        <h4>Rest Day Overtime Pay</h4>
+                        <p>The formula for calculating <strong>Rest Day Overtime Pay</strong> is: </p>
+                        <p>Rest Day Overtime Pay - Hourly Rate x 1.3 x Hours Worked</p>
+                    </div>
+
+                    <div>
+                        <h4>Regular Overtime Pay</h4>
+                        <p>The formula for calculating <strong>Regular Overtime Pay</strong> is: </p>
+                        <p>Regular Overtime Pay - Hourly Rate x 1.25 x Hours Worked</p>
+                    </div>
+                </div>
+                `;
+
                 // 🏆 Payroll Table
                 html += `<h3 class="mt-5">Payroll Details</h3>
                      <div class="table-responsive">
@@ -114,39 +163,6 @@
                          </tr>
                      </table>
                         </div>`;
-
-                // 🏆 Salary Grade Levels Table
-                html += `<h3 class="mt-5">Salary Grade Levels</h3>
-                <div class="table-responsive">
-                     <table border="1" class="table">
-                         <tr>
-                             <th>Level</th>
-                             <th>Step 1</th>
-                             <th>Step 2</th>
-                             <th>Step 3</th>
-                             <th>Step 4</th>
-                             <th>Step 5</th>
-                             <th>Step 6</th>
-                             <th>Step 7</th>
-                             <th>Step 8</th>
-                         </tr>`;
-
-                group.salary_grade_level.forEach(level => {
-                    html += `<tr>
-                             <td>${level.level}</td>
-                             <td>${level.step_1}</td>
-                             <td>${level.step_2}</td>
-                             <td>${level.step_3}</td>
-                             <td>${level.step_4}</td>
-                             <td>${level.step_5}</td>
-                             <td>${level.step_6}</td>
-                             <td>${level.step_7}</td>
-                             <td>${level.step_8}</td>
-                         </tr>`;
-                });
-
-                html += `</table>
-                </div>`;
 
                 // 🏆 Benefits Table
                 html += `<h3 class="mt-5">Benefits</h3>
