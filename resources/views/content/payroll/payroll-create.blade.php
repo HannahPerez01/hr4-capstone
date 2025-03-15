@@ -268,7 +268,7 @@
             let totalAmount = hoursWorked * rate;
             document.getElementById('basic_salary_render').textContent = totalAmount.toFixed(2);
             document.getElementById('basic_salary_hidden').value = totalAmount.toFixed(2);
-            recalculateTotal();
+            recalculateTotal(); 
         });
 
         // Regular Overtime Calculation
