@@ -23,6 +23,7 @@
         <div class="card">
             <div class="pt-5 px-5">
                 <button class="btn btn-dark btn-sm" onclick="location.href = '{{ route('compensation') }}'">Back</button>
+                <button class="btn btn-primary btn-sm" onclick="location.href = '{{ route('payroll-create') }}'">Create Payroll</button>
             </div>
 
             <div class="card-datatable">
@@ -36,7 +37,12 @@
                             <select name="employee_id" id="employee_id" class="form-select" required>
                                 <option value="" disabled selected>Select Employee</option>
                                 @foreach ($employees as $employee)
-                                    <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                                    @foreach ($employee->payrolls as $payroll)
+                                        <option value="{{ $employee->id }}"
+                                            data-payroll="{{ $payroll->basic_salary_amount }}">
+                                            {{ $employee->name }}
+                                        </option>
+                                    @endforeach
                                 @endforeach
                             </select>
 
@@ -49,12 +55,12 @@
 
                         <div class="col-md-6">
                             <label for="" class="form-label">Salary Details</label>
-                            <input type="text" name="date_hired" id="date_hired" class="form-control"
-                                value="{{ old('date_hired') }}" required disabled>
+                            <input type="text" name="basic_salary_amount" id="basic_salary_amount" class="form-control"
+                                value="{{ old('basic_salary_amount') }}" value="{{ $employee }}" required readonly>
 
-                            @if ($errors->has('date_hired'))
+                            @if ($errors->has('basic_salary_amount'))
                                 <div class="text-danger">
-                                    {{ $errors->first('date_hired') }}
+                                    {{ $errors->first('basic_salary_amount') }}
                                 </div>
                             @endif
                         </div>
@@ -112,4 +118,14 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('employee_id').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            let payroll = selectedOption.getAttribute('data-payroll') || '';
+            let payrollField = document.getElementById('basic_salary_amount');
+
+            payrollField.value = payroll;
+        });
+    </script>
 @endsection

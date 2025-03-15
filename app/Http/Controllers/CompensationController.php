@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payroll;
 use App\Models\Employee;
 use App\Models\Compensation;
 use Illuminate\Http\Request;
@@ -12,26 +13,29 @@ class CompensationController extends Controller
 {
 
     protected Compensation $model;
+    protected Payroll $payroll;
     protected Employee $employee;
 
-    public function __construct(Compensation $model, Employee $employee)
+    public function __construct(Compensation $model, Payroll $payroll, Employee $employee)
     {
         $this->model = $model;
+        $this->payroll = $payroll;
         $this->employee = $employee;
     }
 
     public function index()
     {
         $compensations = $this->model->query()->with('employee')->get();
+        $payrolls = $this->payroll->query()->with(['employee'])->get();
 
         return view('content.compensation.compensation-index', [
-            'compensations' => $compensations
+            'payrolls' => $payrolls
         ]);
     }
 
     public function create()
     {
-        $employees = $this->employee->query()->get();
+        $employees = $this->employee->query()->with('payrolls')->get();
         $transactionEnums = TransactionTypeEnum::toOptions();
         $statusEnums = StatusEnum::toOptions();
 

@@ -14,10 +14,10 @@
       "slug": "layouts",
       "submenu": [
         {
-          "url": "payroll/view",
+          "url": "payroll",
           "name": "Payroll",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "payroll-view"
+          "slug": "payroll"
         },
         {
           "url": "payroll/records",
@@ -73,47 +73,10 @@
       "slug": "analytic-view"
     },
     {
+      "url": "compensation-plan",
       "name": "Compensation Plan",
-      "icon": "menu-icon tf-icons ti ti-layout-sidebar",
-      "slug": "layouts",
-      "submenu": [
-        {
-          "url": "compensation-plan",
-          "name": "Compensation Plan",
-          "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "compensation-plan"
-        },
-        {
-          "url": "salary/view",
-          "name": "Salary Level",
-          "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "salary-view"
-        },
-        {
-          "url": "summary/view",
-          "name": "summary Table",
-          "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "summary-view"
-        },
-        {
-          "url": "Compensation/view",
-          "name": "Rd & Reg Ot Computation",
-          "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "Compensation-view"
-        },
-        {
-          "url": "benefit/view",
-          "name": "Benefits",
-          "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "benefit-view"
-        },
-        {
-          "url": "basicrate/view",
-          "name": "Basic Rate",
-          "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "basicrate-view"
-        }
-      ]
+      "icon": "menu-icon tf-icons ti ti-file",
+      "slug": "compensation-plan"
     },
     {
       "url": "user/account",

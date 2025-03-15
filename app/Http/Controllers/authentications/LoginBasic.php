@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\authentications;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
 class LoginBasic extends Controller
@@ -20,65 +21,36 @@ class LoginBasic extends Controller
     public function loginpost(Request $request)
     {
         // Validate the login request
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $key          = 'login_attempts_' . $request->ip(); // Unique key based on IP
+        $maxAttempts  = 3;                                  // Maximum login attempts
+        $decaySeconds = 60;                                 // Lockout time in seconds (1 minute)
 
-        // Check if the user has too many login attempts
-        if ($this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
-
-            return redirect()->back()->with('lockout', true);
-
-        }
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            // Increment login attempts
-            $this->incrementLoginAttempts($request);
-
-            // Return back with an error message
-            return redirect()->back()->withErrors([
-                'email' => 'The provided credentials are incorrect.',
+        // Check if the user is blocked
+        if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
+            return back()->withErrors([
+                'email' => 'Too many login attempts. Please try again in ' . RateLimiter::availableIn($key) . ' seconds.',
             ]);
         }
 
-        // Clear login attempts on successful login
-        $this->clearLoginAttempts($request);
+        // Validate user input
+        $data = $request->validate([
+            'email'    => 'required',
+            'password' => 'required|min:8',
+        ]);
 
-        Auth::login($user);
+        if (Auth::attempt($data)) {
+            // Reset the rate limiter after successful login
+            RateLimiter::clear($key);
 
-        return redirect('/dashboard/crm');
-    }
+            $request->session()->regenerate();
+            return redirect()->intended(route('dashboard-crm'))->with('success', 'Successfully logged in');
+        }
 
-    protected function hasTooManyLoginAttempts(Request $request)
-    {
-        return $this->limiter()->tooManyAttempts(
-            $this->throttleKey($request),
-            3, // Max attempts
-            3 // Lockout time in minutes
-        );
-    }
+        // Increment failed attempts
+        RateLimiter::hit($key, $decaySeconds);
 
-    protected function incrementLoginAttempts(Request $request)
-    {
-        $this->limiter()->hit($this->throttleKey($request));
-    }
-
-    protected function clearLoginAttempts(Request $request)
-    {
-        $this->limiter()->clear($this->throttleKey($request));
-    }
-
-    protected function throttleKey(Request $request)
-    {
-        return strtolower($request->input('email')) . '|' . $request->ip();
-    }
-
-    protected function limiter()
-    {
-        return app(\Illuminate\Cache\RateLimiter::class);
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 }

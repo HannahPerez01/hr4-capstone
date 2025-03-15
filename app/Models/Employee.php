@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Payroll;
 use App\Models\JobPosition;
 use App\Models\Compensation;
 use Illuminate\Database\Eloquent\Model;
@@ -33,5 +34,10 @@ class Employee extends Model
     public function compensation(): HasMany
     {
         return $this->hasMany(Compensation::class);
+    }
+
+    public function payrolls(): HasMany
+    {
+        return $this->hasMany(Payroll::class);
     }
 }
