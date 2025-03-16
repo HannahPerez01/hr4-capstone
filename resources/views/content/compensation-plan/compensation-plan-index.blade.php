@@ -21,8 +21,8 @@
                 <div class="form-group">
                     <select name="position" id="positionSelect" class="form-select w-25">
                         <option value="" selected>Select an option</option>
-                        @foreach ($positions as $position)
-                            <option value="{{ $position->id }}">{{ $position->title }}</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category }}">{{ $category }}</option>
                         @endforeach
                     </select>
 
@@ -39,16 +39,16 @@
 <script>
     $(document).ready(function() {
         $('#positionSelect').change(function() {
-            let positionId = $(this).val(); // Get selected value (ID)
+            let category = $(this).val(); // Get selected value (ID)
 
             $.ajax({
-                url: '/compensation-plan?jobPositionId=' + encodeURIComponent(positionId),
+                url: '/compensation-plan?jobPositionCategory=' + encodeURIComponent(category),
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
                     if (response.compensationPlan && response.compensationPlan
                         .extra_field) {
-                        let jobTitle = response.compensationPlan.job_position.title;
+                        let jobTitle = response.compensationPlan.job_category;
                         let compensationData = response.compensationPlan.extra_field;
                         renderCompensationData(compensationData, jobTitle);
                     } else {
@@ -78,20 +78,20 @@
                 <div class="table-responsive">
                      <table border="1" class="table">
                          <tr>
-                             <th>Level</th>
-                             <th>Step 1</th>
-                             <th>Step 2</th>
-                             <th>Step 3</th>
-                             <th>Step 4</th>
-                             <th>Step 5</th>
-                             <th>Step 6</th>
-                             <th>Step 7</th>
-                             <th>Step 8</th>
+                             <th>Job Role</th>
+                             <th>Level 1</th>
+                             <th>Level 2</th>
+                             <th>Level 3</th>
+                             <th>Level 4</th>
+                             <th>Level 5</th>
+                             <th>Level 6</th>
+                             <th>Level 7</th>
+                             <th>Level 8</th>
                          </tr>`;
 
                 group.salary_grade_level.forEach(level => {
                     html += `<tr>
-                             <td>${level.level}</td>
+                             <td>${level.job_title}</td>
                              <td>${level.step_1}</td>
                              <td>${level.step_2}</td>
                              <td>${level.step_3}</td>
@@ -111,7 +111,7 @@
                     <div>
                         <h4>Rest Day Overtime Pay</h4>
                         <p>The formula for calculating <strong>Rest Day Overtime Pay</strong> is: </p>
-                        <p>Rest Day Overtime Pay - Hourly Rate x 1.3 x Hours Worked</p>
+                        <p>Rest Day Overtime Pay - Hourly Rate x 1.5 x Hours Worked</p>
                     </div>
 
                     <div>
@@ -122,47 +122,36 @@
                 </div>
                 `;
 
-                // 🏆 Payroll Table
-                html += `<h3 class="mt-5">Payroll Details</h3>
+                // 🏆 Compensation Details Table
+                html += `<h3 class="mt-5">Compensation Details</h3>
                      <div class="table-responsive">
                         <table border="1" class="table">
                          <tr>
+                             <th>Job Role</th>
+                             <th>Basic Rate</th>
+                             <th>Basic Pay Range</th>
                              <th>Bonuses</th>
                              <th>Allowances</th>
-                             <th>Basic Pay Range</th>
                              <th>Fringe Benefits</th>
                              <th>Regular OT Pay</th>
                              <th>Rest Day OT Pay</th>
                              <th>Total Compensation</th>
-                         </tr>
-                         <tr>
-                             <td>${group.payroll.bonuses}</td>
-                             <td>${group.payroll.allowances}</td>
-                             <td>${group.payroll.basic_pay_range}</td>
-                             <td>${group.payroll.fringe_benefits}</td>
-                             <td>${group.payroll.regular_overtime_pay}</td>
-                             <td>${group.payroll.rest_day_overtime_pay}</td>
-                             <td>${group.payroll.total_compensation_range}</td>
-                         </tr>
-                     </table>
-                     </div>`;
+                         </tr>`;
+                group.compensation_details.forEach(compensation => {
+                    html += `<tr>
+                             <td>${compensation.job_position}</td>
+                             <td>${compensation.details.basic_rate}</td>
+                             <td>${compensation.details.basic_pay_range}</td>
+                             <td>${compensation.details.bonuses}</td>
+                             <td>${compensation.details.allowances}</td>
+                             <td>${compensation.details.fringe_benefits}</td>
+                             <td>${compensation.details.regular_overtime_pay}</td>
+                             <td>${compensation.details.rest_day_overtime_pay}</td>
+                             <td>${compensation.details.total_compensation_range}</td>
+                    </tr>`;
+                });
+                html += `</table></div>`;
 
-                // 🏆 Basic Rate Table
-                html += `<h3 class="mt-5">Basic Rate</h3>
-                     <div class="table-responsive">
-                        <table border="1" class="table">
-                         <tr>
-                             <th>Daily Rate</th>
-                             <th>Hourly Rate</th>
-                             <th>Basic Pay Range</th>
-                         </tr>
-                         <tr>
-                             <td>${group.basic_rate.daily_rate}</td>
-                             <td>${group.basic_rate.hourly_rate}</td>
-                             <td>${group.basic_rate.basic_pay_range}</td>
-                         </tr>
-                     </table>
-                        </div>`;
 
                 // 🏆 Benefits Table
                 html += `<h3 class="mt-5">Benefits</h3>
