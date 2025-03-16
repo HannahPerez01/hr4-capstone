@@ -49,10 +49,10 @@ class PayrollController extends Controller
         ]);
 
         if (! $payroll) {
-            return redirect()->back()->with(["errors" => 'Error in creating payroll!']);
+            return redirect()->route('payroll')->with(["errors" => 'Error in creating payroll!']);
         }
 
-        return redirect()->back()->with(["success" => "Payroll added successfully!"]);
+        return redirect()->route('payroll')->with(["success" => "Payroll added successfully!"]);
     }
 
     public function edit(string $id)
@@ -83,10 +83,10 @@ class PayrollController extends Controller
             ]);
 
         if (! $payroll) {
-            return redirect()->back()->with(["errors" => 'Error in updating payroll!']);
+            return redirect()->route('payroll')->with(["errors" => 'Error in updating payroll!']);
         }
 
-        return redirect()->back()->with(["success" => "Payroll updated successfully!"]);
+        return redirect()->route('payroll')->with(["success" => "Payroll updated successfully!"]);
     }
 
     public function destroy(string $id)

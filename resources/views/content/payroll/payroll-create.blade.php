@@ -141,19 +141,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mt-5">
+
+                        <div class="col-md-12 mt-2">
                             <div class="row w-50">
                                 <div class="col">
-                                    <label for="" class="form-label">PAGIBIG CONTRIBUTION</label>
+                                    <label for="" class="form-label">SSS CONTRIBUTION</label>
                                 </div>
                                 <div class="col">
                                 </div>
-                                <div class="col" id="pag_ibig_render">
+                                <div class="col" id="sss_render">
                                     0.00
                                 </div>
-                                <input type="hidden" name="pag_ibig_render" id="pag_ibig_render_hidden">
+                                <input type="hidden" name="sss_render" id="sss_render_hidden">
                             </div>
                         </div>
+
                         <div class="col-md-12 mt-2">
                             <div class="row w-50">
                                 <div class="col">
@@ -167,17 +169,18 @@
                                 <input type="hidden" name="philhealth_render" id="philhealth_render_hidden">
                             </div>
                         </div>
-                        <div class="col-md-12 mt-2">
+
+                        <div class="col-md-12 mt-5">
                             <div class="row w-50">
                                 <div class="col">
-                                    <label for="" class="form-label">SSS CONTRIBUTION</label>
+                                    <label for="" class="form-label">PAGIBIG CONTRIBUTION</label>
                                 </div>
                                 <div class="col">
                                 </div>
-                                <div class="col" id="sss_render">
+                                <div class="col" id="pag_ibig_render">
                                     0.00
                                 </div>
-                                <input type="hidden" name="sss_render" id="sss_render_hidden">
+                                <input type="hidden" name="pag_ibig_render" id="pag_ibig_render_hidden">
                             </div>
                         </div>
 

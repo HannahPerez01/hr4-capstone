@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JobPosition;
 use Illuminate\Http\Request;
 use App\Models\CompensationPlan;
+use App\Enum\Compensation\JobCategoryEnum;
 
 class CompensationPlanController extends Controller
 {
@@ -21,22 +22,23 @@ class CompensationPlanController extends Controller
      */
     public function index(Request $request)
     {
-        $compensationPlan = $request->has('jobPositionId') // Fix key check
-            ? $this->model->where('job_position_id', $request->query('jobPositionId')) // Use query() method
-                ->with('jobPosition')
+        $compensationPlan = $request->has('jobPositionCategory') // Fix key check
+            ? $this->model->where('job_category', $request->query('jobPositionCategory')) // Use query() method
+                // ->with('jobPosition')
                 ->first()
             : null;
+            info($request->query('jobPositionCategory'));
 
         if ($request->ajax()) {
             return response()->json([
                 'compensationPlan' => $compensationPlan,
             ]);
         }
-        
-        $positions = JobPosition::query()->get();
+
+        $categories = JobCategoryEnum::toOptions();
 
         return view('content.compensation-plan.compensation-plan-index', [
-            'positions' => $positions,
+            'categories' => $categories,
             'compensationPlan' => $compensationPlan
         ]);
     }
