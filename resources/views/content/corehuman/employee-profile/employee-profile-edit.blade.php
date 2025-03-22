@@ -69,6 +69,60 @@
                         </div>
 
                         <div class="col-md-6 mt-3">
+                            <label for="" class="form-label">Civil Status</label>
+                            <select name="civil_status" id="civil_status" class="form-select" required>
+                                <option value="{{ $employee->civil_status }}">
+                                    {{ $employee->civil_status }}
+                                </option>
+                                @foreach ($civilStatusEnums as $ciwvilStatus)
+                                    <option value="{{ $civilStatus }}">{{ $civilStatus }}</option>
+                                @endforeach
+                            </select>
+
+                            @if ($errors->has('civil_status'))
+                                <div class="text-danger">
+                                    {{ $errors->first('civil_status') }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="col-md-6 mt-3">
+                            <label for="" class="form-label">Age</label>
+                            <input type="number" name="age" id="age" class="form-control"
+                                value="{{ $employee->age ?? old('age') }}" required>
+
+                            @if ($errors->has('age'))
+                                <div class="text-danger">
+                                    {{ $errors->first('age') }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="col-md-6 mt-3">
+                            <label for="" class="form-label">Email</label>
+                            <input type="email" name="email" id="email" class="form-control"
+                                value="{{ $employee->email ?? old('email') }}" required>
+
+                            @if ($errors->has('email'))
+                                <div class="text-danger">
+                                    {{ $errors->first('email') }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="col-md-6 mt-3">
+                            <label for="" class="form-label">Present Address</label>
+                            <input type="text" name="present_address" id="present_address" class="form-control"
+                                value="{{ $employee->present_address ?? old('present_address') }}" required>
+
+                            @if ($errors->has('present_address'))
+                                <div class="text-danger">
+                                    {{ $errors->first('present_address') }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="col-md-6 mt-3">
                             <label for="" class="form-label">Department</label>
                             <select name="department" id="department" class="form-select" required>
                                 <option value="{{ $employee->department }}">

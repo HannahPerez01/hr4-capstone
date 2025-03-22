@@ -1,6 +1,4 @@
 <?php use Carbon\Carbon; ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
 
 @extends('layouts/layoutMaster')
@@ -41,6 +39,10 @@
                             <th>EMPLOYEE ID</th>
                             <th>EMPLOYEE NAME</th>
                             <th>GENDER</th>
+                            <th>CIVIL STATUS</th>
+                            <th>AGE</th>
+                            <th>EMAIL</th>
+                            <th>PRESENT ADDRESS</th>
                             <th>JOB POSITION</th>
                             <th>DEPARTMENT</th>
                             <th>EMPLOYMENT TYPE</th>
@@ -62,6 +64,10 @@
                                 <td>{{ $employee->employee_code }}</td>
                                 <td>{{ $employee->name }}</td>
                                 <td>{{ $employee->gender }}</td>
+                                <td>{{ $employee->civil_status }}</td>
+                                <td>{{ $employee->age }}</td>
+                                <td>{{ $employee->email }}</td>
+                                <td>{{ $employee->present_address }}</td>
                                 <td>{{ $employee->jobPosition->title }}</td>
                                 <td>{{ $employee->department }}</td>
                                 <td>{{ $employee->employment_type }}</td>

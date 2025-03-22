@@ -1,6 +1,4 @@
 <?php use Carbon\Carbon; ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 @extends('layouts/layoutMaster')
 
@@ -42,9 +40,15 @@
                 <h5>Job Position: {{ $employee->jobPosition->title }}</h5>
 
                 <p>Gender: {{ $employee->gender }}</p>
+                <p>Civil Status: {{ $employee->civil_status }}</p>
+                <p>Age: {{ $employee->age }}</p>
+                <p>Email: {{ $employee->email }}</p>
+                <p>Present Address: {{ $employee->present_address }}</p>
                 <p>Department: {{ $employee->department }}</p>
                 <p>Employment Type: {{ $employee->employment_type }}</p>
-                <p>Date Hired: {{ $dateFormatted }} - <span class="badge rounded {{ $status == 'Newly Hired' ? 'bg-warning' : 'bg-secondary' }}">{{ $status }}</span></p>
+                <p>Date Hired: {{ $dateFormatted }} - <span
+                        class="badge rounded {{ $status == 'Newly Hired' ? 'bg-warning' : 'bg-secondary' }}">{{ $status }}</span>
+                </p>
                 <p>Status: {{ $employee->status }}</p>
             </div>
         </div>

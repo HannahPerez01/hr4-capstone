@@ -26,16 +26,19 @@
                     <div class="card-body">
                         <!-- Logo -->
                         <div class="justify-content-center">
-                            <img src="{{ asset('assets/img/icons.jpg') }}"
-                            class="w-25"
+                            <img src="{{ asset('assets/img/icons.jpg') }}" class="w-25"
                                 style="display: block; margin-left: auto; margin-right: auto;">
                         </div>
                         <p class="app-brand-text demo text-body fw-bold ms-1" style="text-align:center;">LOGIN</p>
 
-                        @if ($errors->any())
+                        @if (session()->has('success'))
+                            <div class="alert alert-success">
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        @elseif($errors->any())
                             <div class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
+                                    <span>{{ $error }}</span>
                                 @endforeach
                             </div>
                         @endif
@@ -46,19 +49,21 @@
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email or Username</label>
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email or username" autofocus>
+                                    placeholder="Enter your email or username"
+                                    @if (session('cooldown')) disabled @endif autofocus>
+
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">Password</label>
-                                    <a href="{{ url('auth/forgot-password-basic') }}">
+                                    <a href="{{ url('auth/forgot-password') }}">
                                         <small>Forgot Password?</small>
                                     </a>
                                 </div>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                        aria-describedby="password" />
+                                        placeholder="Enter you password" @if (session('cooldown')) disabled @endif
+                                        aria-describedby="password" required/>
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
                             </div>

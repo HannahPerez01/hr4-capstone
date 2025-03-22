@@ -5,25 +5,28 @@
       "name": "Dashboards",
       "icon": "menu-icon tf-icons ti ti-smart-home",
       "slug": "dashboard-crm",
-      "badge": ["primary", ""]
+      "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator"]
     },
 
     {
       "name": "Payroll System",
       "icon": "menu-icon tf-icons ti ti-layout-sidebar",
       "slug": "layouts",
+      "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator", "hr_specialist"],
       "submenu": [
         {
           "url": "payroll",
           "name": "Payroll",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "payroll"
+          "slug": "payroll",
+          "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator", "hr_specialist"]
         },
         {
           "url": "payroll/records",
           "name": "Records",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "records"
+          "slug": "records",
+          "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator"]
         }
       ]
     },
@@ -32,57 +35,58 @@
       "name": "Core Human Capital",
       "icon": "menu-icon tf-icons ti ti-layout-sidebar",
       "slug": "layouts",
+      "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator", "hr_specialist"],
       "submenu": [
         {
           "url": "employee-profile",
           "name": "Employee Records",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "Employee-profile"
+          "slug": "Employee-profile",
+          "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
         },
         {
           "url": "Performance/view",
           "name": "Performance Management",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "Performance-view"
+          "slug": "Performance-view",
+          "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
         },
         {
           "url": "compensation",
           "name": "Compensation and Payroll",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "Compensation"
+          "slug": "Compensation",
+          "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
         },
         {
           "url": "Leavemanagement/view",
           "name": "Leave management",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "Leavemanagement-view"
+          "slug": "Leavemanagement-view",
+          "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
         },
         {
           "url": "recruitment/view",
           "name": "Recruitment",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "recruitment-view"
+          "slug": "recruitment-view",
+          "role": ["super_admin", "hr_manager", "hr_director", "hr_specialist", "hr_coordinator"]
         }
       ]
-    },
-
-    {
-      "url": "analytic/view",
-      "name": "HR Analytics",
-      "icon": "menu-icon tf-icons ti ti-file",
-      "slug": "analytic-view"
     },
     {
       "url": "compensation-plan",
       "name": "Compensation Plan",
       "icon": "menu-icon tf-icons ti ti-file",
-      "slug": "compensation-plan"
+      "slug": "compensation-plan",
+      "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator"]
     },
     {
-      "url": "user/account",
-      "name": "User Account",
+      "url": "users",
+      "name": "Users",
       "icon": "menu-icon tf-icons ti ti-user ",
-      "slug": "user-account"
+      "slug": "users",
+      "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator"]
     }
   ]
 }

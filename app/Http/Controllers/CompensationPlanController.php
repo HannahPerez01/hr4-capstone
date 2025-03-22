@@ -22,12 +22,9 @@ class CompensationPlanController extends Controller
      */
     public function index(Request $request)
     {
-        $compensationPlan = $request->has('jobPositionCategory') // Fix key check
-            ? $this->model->where('job_category', $request->query('jobPositionCategory')) // Use query() method
-                // ->with('jobPosition')
-                ->first()
+        $compensationPlan = $request->has('jobPositionCategory')
+            ? $this->model->where('job_category', $request->query('jobPositionCategory'))->first()
             : null;
-            info($request->query('jobPositionCategory'));
 
         if ($request->ajax()) {
             return response()->json([

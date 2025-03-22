@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Models\JobPosition;
 use App\Enum\DepartmentEnum;
 use Illuminate\Http\Request;
+use App\Enum\CivilStatusEnum;
 use App\Enum\EmployeeGenderEnum;
 use App\Enum\EmployeeStatusEnum;
 use App\Enum\EmploymentTypeEnum;
@@ -46,6 +47,7 @@ class EmployeeProfileController extends Controller
         $departmentEnums = DepartmentEnum::toOptions();
         $employmentTypeEnums = EmploymentTypeEnum::toOptions();
         $employeeStatusEnums = EmployeeStatusEnum::toOptions();
+        $civilStatusEnums = CivilStatusEnum::toOptions();
 
         return view('content.corehuman.employee-profile.employee-profile-edit', [
             'employee' => $employee,
@@ -54,6 +56,7 @@ class EmployeeProfileController extends Controller
             'departmentEnums' => $departmentEnums,
             'employmentTypeEnums' => $employmentTypeEnums,
             'employeeStatusEnums' => $employeeStatusEnums,
+            'civilStatusEnums' => $civilStatusEnums,
         ]);
     }
 
@@ -62,6 +65,10 @@ class EmployeeProfileController extends Controller
         $employee = $this->model->where('id', $id)->first();
         $employee->name = $request->employee_name;
         $employee->gender = $request->gender;
+        $employee->civil_status = $request->civil_status;
+        $employee->age = $request->age;
+        $employee->email = $request->email;
+        $employee->present_address = $request->present_address;
         $employee->department = $request->department;
         $employee->job_position_id = $request->job_position_id;
         $employee->employment_type = $request->employment_type;

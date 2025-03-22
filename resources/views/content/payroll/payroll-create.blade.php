@@ -41,9 +41,9 @@
                             autocomplete="off">
                             <option value="">Select an options</option>
                             @foreach ($employees as $employee)
-                                <option value="{{ $employee->id }}" data-position="{{ $employee->jobPosition->title }}"
-                                    data-position-rate="{{ $employee->jobPosition->hourly_rate }}">
-                                    {{ $employee->employee_code }} - {{ $employee->name }}
+                                <option value="{{ $employee?->id }}" data-position="{{ $employee?->jobPosition?->title }}"
+                                    data-position-rate="{{ $employee?->jobPosition?->hourly_rate }}">
+                                    {{ $employee?->employee_code }} - {{ $employee?->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -271,7 +271,7 @@
             let totalAmount = hoursWorked * rate;
             document.getElementById('basic_salary_render').textContent = totalAmount.toFixed(2);
             document.getElementById('basic_salary_hidden').value = totalAmount.toFixed(2);
-            recalculateTotal(); 
+            recalculateTotal();
         });
 
         // Regular Overtime Calculation
