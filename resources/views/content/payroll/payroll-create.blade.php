@@ -55,8 +55,13 @@
                     </div>
 
                     <div class="col-md-12 mt-3">
-                        <label for="" class="form-label">Date</label>
-                        <input type="date" name="date" id="date" class="form-control w-50" />
+                        <label for="" class="form-label">From</label>
+                        <input type="date" name="from" id="from" class="form-control w-50" />
+                    </div>
+
+                    <div class="col-md-12 mt-3">
+                        <label for="" class="form-label">To</label>
+                        <input type="date" name="to" id="to" class="form-control w-50" />
                     </div>
 
                     <div class="w-100" id="position-container2" style="display: none;">

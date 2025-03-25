@@ -22,7 +22,8 @@ class PayrollRequest extends FormRequest
     {
         return [
             'employee_id'         => "required",
-            'date'                => "required|date",
+            'from'                => "required|date",
+            'to'                => "required|date",
             'basic_salary'        => "required|string",
             'basic_salary_render' => "required|string",
             'reg_ot'              => "required|string",

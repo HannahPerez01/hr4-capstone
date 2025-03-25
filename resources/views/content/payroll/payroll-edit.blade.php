@@ -60,8 +60,14 @@
                     </div>
 
                     <div class="col-md-12 mt-3">
-                        <label for="" class="form-label">Date</label>
-                        <input type="date" name="date" id="date" value="{{ $payroll->date_added }}"
+                        <label for="" class="form-label">From</label>
+                        <input type="date" name="from" id="from" value="{{ $payroll->from }}"
+                            class="form-control w-50" />
+                    </div>
+
+                    <div class="col-md-12 mt-3">
+                        <label for="" class="form-label">To</label>
+                        <input type="date" name="to" id="to" value="{{ $payroll->to }}"
                             class="form-control w-50" />
                     </div>
 
@@ -117,8 +123,8 @@
                                     <label for="" class="form-label">RD OT</label>
                                 </div>
                                 <div class="col">
-                                    <input type="number" name="rd_ot" id="rd_ot" value="{{ $payroll->rd_ot_hours }}"
-                                        class="form-control">
+                                    <input type="number" name="rd_ot" id="rd_ot"
+                                        value="{{ $payroll->rd_ot_hours }}" class="form-control">
                                 </div>
                                 <div class="col" id="rd_ot_render">
                                     {{ $payroll->rd_ot_amount }}

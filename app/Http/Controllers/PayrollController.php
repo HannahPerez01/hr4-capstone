@@ -34,7 +34,8 @@ class PayrollController extends Controller
 
         $payroll = $this->model->create([
             'employee_id'         => $request->employee_id,
-            'date_added'          => $request->date,
+            'from'                => $request->from,
+            'to'                  => $request->to,
             'basic_salary_hours'  => $request->basic_salary,
             'basic_salary_amount' => $request->basic_salary_render,
             'reg_ot_hours'        => $request->reg_ot,
@@ -68,7 +69,8 @@ class PayrollController extends Controller
         $payroll = $this->model->find($id)
             ->update([
                 'employee_id'         => $request->employee_id,
-                'date_added'          => $request->date,
+                'from'                => $request->from,
+                'to'                  => $request->to,
                 'basic_salary_hours'  => $request->basic_salary,
                 'basic_salary_amount' => $request->basic_salary_render,
                 'reg_ot_hours'        => $request->reg_ot,

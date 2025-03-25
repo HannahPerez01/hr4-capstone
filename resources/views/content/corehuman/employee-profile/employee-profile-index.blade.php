@@ -48,19 +48,21 @@
                             <th>EMPLOYMENT TYPE</th>
                             <th>DATE OF HIRE</th>
                             <th>STATUS</th>
-                            <th>ACTION</th>
+                            @if (auth()->user()->role !== 'hr_coordinator')
+                                <th>ACTION</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($employees as $employee)
                             <tr>
-                            @php
-                                $dateHired = Carbon::parse($employee->date_hired);
-                                $status = $dateHired->greaterThanOrEqualTo(Carbon::now()->subMonths(6))
-                                    ? 'Newly Hired'
-                                    : 'Old Hired';
-                                $dateFormatted = $dateHired->format('F d, Y');
-                            @endphp
+                                @php
+                                    $dateHired = Carbon::parse($employee->date_hired);
+                                    $status = $dateHired->greaterThanOrEqualTo(Carbon::now()->subMonths(6))
+                                        ? 'Newly Hired'
+                                        : 'Old Hired';
+                                    $dateFormatted = $dateHired->format('F d, Y');
+                                @endphp
                                 <td>{{ $employee->employee_code }}</td>
                                 <td>{{ $employee->name }}</td>
                                 <td>{{ $employee->gender }}</td>
@@ -85,11 +87,15 @@
                                 </td>
 
                                 <td>{{ $employee->status }}</td>
-                                <td class="d-flex gap-2">
-                                    <!-- Add action buttons or links here -->
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="location.href = '{{ route('employee-profile-view', ['id' => $employee->id]) }}'">View</button>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="location.href = '{{ route('employee-profile-edit', ['id' => $employee->id]) }}'">Edit</button>
-                                </td>
+                                @if (auth()->user()->role !== 'hr_coordinator')
+                                    <td class="d-flex gap-2">
+                                        <!-- Add action buttons or links here -->
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            onclick="location.href = '{{ route('employee-profile-view', ['id' => $employee->id]) }}'">View</button>
+                                        <button type="button" class="btn btn-success btn-sm"
+                                            onclick="location.href = '{{ route('employee-profile-edit', ['id' => $employee->id]) }}'">Edit</button>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

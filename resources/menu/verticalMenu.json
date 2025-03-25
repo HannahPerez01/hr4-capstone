@@ -2,7 +2,7 @@
   "menu": [
     {
       "url": "dashboard/crm",
-      "name": "Dashboards",
+      "name": "HR Dashboard",
       "icon": "menu-icon tf-icons ti ti-smart-home",
       "slug": "dashboard-crm",
       "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator"]
@@ -23,7 +23,7 @@
         },
         {
           "url": "payroll/records",
-          "name": "Records",
+          "name": "Timesheet and Payroll",
           "icon": "menu-icon tf-icons ti ti-clock",
           "slug": "records",
           "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator"]
@@ -60,7 +60,7 @@
         },
         {
           "url": "Leavemanagement/view",
-          "name": "Leave management",
+          "name": "Leave and Attendance Management",
           "icon": "menu-icon tf-icons ti ti-clock",
           "slug": "Leavemanagement-view",
           "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]

@@ -43,14 +43,21 @@
                     </thead>
                     <tbody>
                         @foreach ($payrolls as $payroll)
+                            @php
+                                $from = Carbon\Carbon::parse($payroll->from);
+                                $to = Carbon\Carbon::parse($payroll->to);
+                                $duration = $from->diffInDays($to);
+                            @endphp
                             <tr>
                                 <td>{{ $payroll->employee->employee_code }}</td>
                                 <td>{{ $payroll->employee->name }}</td>
                                 <td class="d-flex gap-2 w-100">
-                                    <div><strong>Total Earnings</strong>: {{ $payroll->total_earnings }}</div>
-                                    <div><strong>Total Deduction</strong>: {{ $payroll->total_deductions }}</div>
+                                    <div>
+                                        <strong>Total Salary</strong>:
+                                        {{ $payroll->total_earnings }}
+                                    </div>
                                 </td>
-                                <td></td>
+                                <td>{{ $duration }} Days</td>
                                 <td>{{ $payroll->transaction_type }}</td>
                                 <td>{{ $payroll->status }}</td>
                                 {{-- <td class="d-flex gap-2">

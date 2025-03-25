@@ -12,7 +12,8 @@ class Payroll extends Model
 
     protected $fillable = [
         'employee_id',
-        'date_added',
+        'from',
+        'to',
         'basic_salary_hours',
         'basic_salary_amount',
         'reg_ot_hours',

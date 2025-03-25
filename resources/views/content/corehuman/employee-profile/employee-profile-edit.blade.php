@@ -74,7 +74,7 @@
                                 <option value="{{ $employee->civil_status }}">
                                     {{ $employee->civil_status }}
                                 </option>
-                                @foreach ($civilStatusEnums as $ciwvilStatus)
+                                @foreach ($civilStatusEnums as $civilStatus)
                                     <option value="{{ $civilStatus }}">{{ $civilStatus }}</option>
                                 @endforeach
                             </select>
