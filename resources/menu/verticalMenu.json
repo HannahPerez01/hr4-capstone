@@ -16,13 +16,13 @@
       "submenu": [
         {
           "url": "payroll",
-          "name": "Payroll",
+          "name": "ESS Payroll",
           "icon": "menu-icon tf-icons ti ti-clock",
           "slug": "payroll",
           "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator", "hr_specialist"]
         },
         {
-          "url": "payroll/records",
+          "url": "payroll-records",
           "name": "Timesheet and Payroll",
           "icon": "menu-icon tf-icons ti ti-clock",
           "slug": "records",
@@ -45,11 +45,19 @@
           "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
         },
         {
-          "url": "Performance/view",
           "name": "Performance Management",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "Performance-view",
-          "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
+          "slug": "performance",
+          "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"],
+          "submenu": [
+            {
+              "url": "performance",
+              "name": "Performance Review",
+              "icon": "menu-icon tf-icons ti ti-clock",
+              "slug": "performance",
+              "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
+            }
+          ]
         },
         {
           "url": "compensation",
@@ -66,10 +74,10 @@
           "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
         },
         {
-          "url": "recruitment/view",
+          "url": "recruitment",
           "name": "Recruitment",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "recruitment-view",
+          "slug": "recruitment",
           "role": ["super_admin", "hr_manager", "hr_director", "hr_specialist", "hr_coordinator"]
         }
       ]

@@ -35,7 +35,7 @@
           <option class="form-control">Training and development specialist</option>
         </select>
 </div>
-      
+
   </div>
 
   <div class="card-datatable table-responsive">
@@ -76,7 +76,7 @@
                   <button type="submit" class="btn btn-danger btn-sm btn-flat">Delete</button>
 
             </form>
-     
+
        </td>
        </tr>
        @endforeach
@@ -111,13 +111,13 @@
           <option class="form-control">Training and development specialist</option>
         </select>
      </div>
-      
+
 
         <label>LEVEL NAME</label>
         <div class="form-group">
          <input type="text" name="levelname" class="form-control" required>
        </div>
-       
+
        <label>STEP 1</label>
        <div class="form-group">
          <input type="number" name="step1" class="form-control" required>
@@ -127,7 +127,7 @@
        <div class="form-group">
          <input type="number" name="step2" class="form-control" required>
        </div>
-       
+
        <label>STEP 2</label>
        <div class="form-group">
          <input type="number" name="step3" class="form-control" required>
@@ -200,7 +200,7 @@
 // Hide all content class element
       $('.contents').hide();
 
-// Search 
+// Search
       $('.contents .titles:contains("'+text+'")').closest('.contents').show();
     });
 

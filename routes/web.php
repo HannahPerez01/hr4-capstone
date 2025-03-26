@@ -12,6 +12,8 @@ use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\PerformanceController;
+use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\ShiftandschedulingController;
 use App\Http\Controllers\UserAccountController;
 use Illuminate\Support\Facades\Route;
@@ -61,7 +63,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/payroll/edit/{id}', 'edit')->name('payroll-edit');
             Route::put('/payroll/update/{id}', 'update')->name('payroll-update');
             Route::delete('/payroll/delete/{id}', 'destroy')->name('payroll-delete');
-            Route::get('/payroll/records', 'records')->name('payroll.records');
+            Route::get('/payroll-records', 'records')->name('payroll.records');
         });
 
     Route::controller(EmployeeProfileController::class)
@@ -86,6 +88,21 @@ Route::middleware('auth')->group(function () {
             Route::get('/compensation-plan', 'index')->name('compensation-plan');
         });
 
+    Route::controller(PerformanceController::class)
+        ->group(function () {
+            Route::get('/performance', 'index')->name('performance');
+        });
+
+    Route::controller(RecruitmentController::class)
+        ->group(function () {
+            Route::get('/recruitment', 'index')->name('recruitment');
+            Route::get('/recruitment/create', 'create')->name('recruitment-create');
+            Route::post('/recruitment/store', 'store')->name('recruitment-store');
+            Route::get('/recruitment/edit/{id}', 'edit')->name('recruitment-edit');
+            Route::put('/recruitment/update/{id}', 'update')->name('recruitment-update');
+            Route::delete('/recruitment/delete/{id}', 'destroy')->name('recruitment-delete');
+        });
+
     Route::get('/time/and/attendance', [App\Http\Controllers\timeandattendance::class, 'index'])->name('time-and-attendance');
 
     Route::get('/deduction', [App\Http\Controllers\DeductionController::class, 'index'])->name('deduction');
@@ -94,15 +111,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/analytic/view', [App\Http\Controllers\analytic::class, 'index'])->name('analytic-view');
 
     Route::get('/Leavemanagement/view', [App\Http\Controllers\LeaveManagementController::class, 'index'])->name('Leavemanagement-view');
-
-    Route::get('/Performance/view', [App\Http\Controllers\PerformanceController::class, 'index'])->name('Performance-view');
-
-    Route::get('/recruitment/view', [App\Http\Controllers\RecruitmentController::class, 'index'])->name('recruitment-view');
-
-    Route::post('/recruitment', [App\Http\Controllers\RecruitmentController::class, 'store'])->name('store');
-    Route::post('/Recruiteupdate', [App\Http\Controllers\RecruitmentController::class, 'Recruiteupdate'])->name('Recruiteupdate');
-
-    Route::post('/recruitment_update', [App\Http\Controllers\RecruitmentController::class, 'update_request'])->name('update_request');
 
     Route::get('/pages/profile-user', [UserProfile::class, 'index'])->name('pages-profile-user');
 

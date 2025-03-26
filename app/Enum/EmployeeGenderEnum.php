@@ -10,5 +10,4 @@ enum EmployeeGenderEnum: string
 
     case MALE = "Male";
     case FEMALE = "Female";
-    case OTHERS = "Others";
 }

@@ -11,4 +11,6 @@ enum DepartmentEnum: string
     case HR = "HR";
     case LOGISTICS = "Logistics";
     case FINANCE = "Finance";
+    case TRAINING = "Training";
+    case SECURITY = "Security";
 }

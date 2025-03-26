@@ -24,7 +24,7 @@ class LoginBasic extends Controller
                                                             // Validate the login request
         $key          = 'login_attempts_' . $request->ip(); // Unique key based on IP
         $maxAttempts  = 3;                                  // Maximum login attempts
-        $decaySeconds = 60;                                 // Lockout time in seconds (1 minute)
+        $decaySeconds = 70;                                 // Lockout time in seconds (1 minute)
 
         // Check if the user is blocked
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {

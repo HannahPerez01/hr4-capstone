@@ -1,23 +1,22 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Recruite extends Model
+class Recruitment extends Model
 {
     use HasFactory;
 
-         protected $table="hr4_recruitment";
-      protected $fillable = [
+    protected $table    = "job_";
+    protected $fillable = [
         'recruitment_id',
         'jobrole',
         'department',
         'status',
-          'salary',
-            'time',
+        'salary',
+        'time',
         'description',
-        
+
     ];
 }

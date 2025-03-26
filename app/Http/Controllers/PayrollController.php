@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PayrollRequest;
 use App\Models\Employee;
 use App\Models\Payroll;
+use Illuminate\Support\Str;
 
 class PayrollController extends Controller
 {
@@ -31,9 +32,9 @@ class PayrollController extends Controller
 
     public function store(PayrollRequest $request)
     {
-
         $payroll = $this->model->create([
             'employee_id'         => $request->employee_id,
+            'code'                => strtoupper(Str::random(16)),
             'from'                => $request->from,
             'to'                  => $request->to,
             'basic_salary_hours'  => $request->basic_salary,
@@ -101,5 +102,12 @@ class PayrollController extends Controller
         }
 
         return redirect()->back()->with(["success" => "Payroll deleted successfully!"]);
+    }
+
+    public function records()
+    {
+        $payrolls = $this->model->query()->with(['employee'])->get();
+
+        return view('content.payroll.records', compact('payrolls'));
     }
 }

@@ -1,67 +1,100 @@
 <?php
-
 namespace App\Http\Controllers;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Http\Request;
-use App\Models\Recruite;
-use App\Models\job_qualification;
 
+use App\Enum\DepartmentEnum;
+use App\Enum\JobRequestStatusEnum;
+use App\Models\JobRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class RecruitmentController extends Controller
 {
 
+    protected JobRequest $model;
+
+    public function __construct(JobRequest $model)
+    {
+        $this->model = $model;
+    }
+
     public function index()
     {
-        $Recruite = Recruite::all();
-        return view('content.recruitment.recruitment-view', ['Recruite' => $Recruite]);
+        $jobRequests = $this->model->query()->get();
+
+        return view('content.recruitment.recruitment-index', [
+            'jobRequests' => $jobRequests,
+        ]);
     }
 
-    public function store(Request $request)
+    public function create()
     {
-        Recruite::create([
-            'jobrole' => $request->jobrole,
-            'status' => $request->status,
-            'salary' => $request->salary,
-            'time' => $request->time,
-            'department' => $request->department,
+        $departmentEnums = DepartmentEnum::toOptions();
+
+        return view('content.recruitment.recruitment-create', [
+            'departmentEnums' => $departmentEnums,
+        ]);
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'job_title'  => 'string|required',
+            'department' => 'string|required',
         ]);
 
-        return back();
-    }
+        $jobRequest = $this->model->create([
+            'job_title'  => $data['job_title'],
+            'department' => $data['department'],
+            'status'     => JobRequestStatusEnum::PENDING->value,
+        ]);
 
-    public function Recruiteupdate(Request $request)
-    {
-        $id = $request->recruitment_id_insert;
-        $Recruite_update = Recruite::where('recruitment_id', $id);
-        if (!$Recruite_update) {
-            return abort(404);
+        if (! $jobRequest) {
+            return redirect()->back()->with('errors', 'There was an error in creating job request');
         }
-        $Recruite_update->update([
-            'status' => $request->status_insert,
-        ]);
-        job_qualification::create([
-            'job_request_id' => $request->recruitment_id_insert,
-            'status' => $request->status_insert,
-        ]);
 
-
-        return back();
+        return redirect()->route('recruitment')->with('success', 'Job Request created successfully!');
     }
 
-    public function update_request(Request $request)
+    public function edit(string $id)
     {
-        $id = $request->recruitment_id_update;
-        $Recruite_updates = Recruite::where('recruitment_id', $id);
-        if (!$Recruite_updates) {
-            return abort(404);
-        }
-        $Recruite_updates->update([
-            'salary' => $request->salary_update,
-            'time' => $request->time_update,
-            'jobrole' => $request->jobrole_update,
-            'department' => $request->department_update,
+        $jobRequest      = $this->model->find($id);
+        $departmentEnums = DepartmentEnum::toOptions();
+
+        return view('content.recruitment.recruitment-edit', [
+            'jobRequest'      => $jobRequest,
+            'departmentEnums' => $departmentEnums,
+        ]);
+    }
+
+    public function update(Request $request, string $id): RedirectResponse
+    {
+        $data = $request->validate([
+            'job_title'  => 'string|required',
+            'department' => 'string|required',
         ]);
 
-        return back();
+        $jobRequest = $this->model->find($id)->update([
+            'job_title'  => $data['job_title'],
+            'department' => $data['department'],
+            'status'     => JobRequestStatusEnum::PENDING->value,
+        ]);
+
+        if (! $jobRequest) {
+            return redirect()->back()->with('errors', 'There was an error in updating job request');
+        }
+
+        return redirect()->route('recruitment')->with('success', 'Job Request updated successfully!');
+    }
+
+    public function destroy(string $id)
+    {
+        $jobRequest = $this->model->findOrFail($id);
+        $jobRequest->delete();
+
+        if (! $jobRequest) {
+            return redirect()->back()->with('errors', 'There was an error in deleting job request');
+        }
+
+        return redirect()->route('recruitment')->with('success', 'Job Request deleted successfully!');
     }
 }

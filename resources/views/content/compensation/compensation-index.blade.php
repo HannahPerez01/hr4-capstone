@@ -34,7 +34,8 @@
                         <tr>
                             <th>Employee ID</th>
                             <th>Employee Name</th>
-                            <th class="text-center">Salary Details</th>
+                            <th>Salary Code</th>
+                            <th>Salary Details</th>
                             <th>Duration</th>
                             <th>Transaction</th>
                             <th>Status</th>
@@ -51,12 +52,8 @@
                             <tr>
                                 <td>{{ $payroll->employee->employee_code }}</td>
                                 <td>{{ $payroll->employee->name }}</td>
-                                <td class="d-flex gap-2 w-100">
-                                    <div>
-                                        <strong>Total Salary</strong>:
-                                        {{ $payroll->total_earnings }}
-                                    </div>
-                                </td>
+                                <td>{{ $payroll->code }}</td>
+                                <td>₱{{ $payroll->total_earnings }}</td>
                                 <td>{{ $duration }} Days</td>
                                 <td>{{ $payroll->transaction_type }}</td>
                                 <td>{{ $payroll->status }}</td>
