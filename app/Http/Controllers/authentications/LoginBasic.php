@@ -46,7 +46,7 @@ class LoginBasic extends Controller
             RateLimiter::clear($key);
 
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard-crm'))->with('success', 'Successfully logged in');
+            return redirect()->intended(route('hr-analytics'))->with('success', 'Successfully logged in');
         }
 
         // Increment failed attempts
