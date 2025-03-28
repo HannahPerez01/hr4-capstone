@@ -29,6 +29,7 @@ class Employee extends Model
         'employment_type',
         'date_hired',
         'status',
+        'resigned_at'
     ];
 
     public function jobPosition(): BelongsTo

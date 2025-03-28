@@ -1,28 +1,31 @@
 <?php
-use App\Http\Controllers\apps\Calendar;
 use App\Http\Controllers\apps\Chat;
-use App\Http\Controllers\authentications\LoginBasic;
-use App\Http\Controllers\ClaimController;
-use App\Http\Controllers\CompensationController;
-use App\Http\Controllers\CompensationPlanController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\apps\Calendar;
 use App\Http\Controllers\dashboard\Crm;
-use App\Http\Controllers\EmployeeProfileController;
-use App\Http\Controllers\language\LanguageController;
-use App\Http\Controllers\laravel_example\UserManagement;
+use App\Http\Controllers\ClaimController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\HRAnalyticsController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\RecruitmentController;
-use App\Http\Controllers\ShiftandschedulingController;
 use App\Http\Controllers\UserAccountController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompensationController;
+use App\Http\Controllers\EmployeeProfileController;
+use App\Http\Controllers\LeaveManagementController;
+use App\Http\Controllers\authentications\LoginBasic;
+use App\Http\Controllers\CompensationPlanController;
+use App\Http\Controllers\language\LanguageController;
+use App\Http\Controllers\ShiftandschedulingController;
+use App\Http\Controllers\laravel_example\UserManagement;
 
 Route::middleware('auth')->group(function () {
 
     Route::get('/app/chat', [Chat::class, 'index'])->name('app-chat');
     Route::post('/logout', [App\Http\Controllers\LogoutController::class, 'logout'])->name('logout');
     Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
+    Route::get('/hr-analytics', [HRAnalyticsController::class, 'index'])->name('hr-analytics');
 
     Route::controller(ClaimController::class)
         ->group(function () {
@@ -91,6 +94,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(PerformanceController::class)
         ->group(function () {
             Route::get('/performance', 'index')->name('performance');
+            Route::get('/performance/succession', 'succession')->name('performance-succession');
         });
 
     Route::controller(RecruitmentController::class)
@@ -103,14 +107,17 @@ Route::middleware('auth')->group(function () {
             Route::delete('/recruitment/delete/{id}', 'destroy')->name('recruitment-delete');
         });
 
+    Route::controller(LeaveManagementController::class)
+        ->group(function () {
+            Route::get('/leave-management', 'index')->name('leave-management');
+        });
+
     Route::get('/time/and/attendance', [App\Http\Controllers\timeandattendance::class, 'index'])->name('time-and-attendance');
 
     Route::get('/deduction', [App\Http\Controllers\DeductionController::class, 'index'])->name('deduction');
     Route::post('/deduction', [App\Http\Controllers\DeductionController::class, 'store'])->name('store');
 
     Route::get('/analytic/view', [App\Http\Controllers\analytic::class, 'index'])->name('analytic-view');
-
-    Route::get('/Leavemanagement/view', [App\Http\Controllers\LeaveManagementController::class, 'index'])->name('Leavemanagement-view');
 
     Route::get('/pages/profile-user', [UserProfile::class, 'index'])->name('pages-profile-user');
 
@@ -154,7 +161,6 @@ Route::controller(LoginBasic::class)
         Route::post('/reset-password', 'resetPassword')->name('password.update');
     });
 
-Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
 // locale
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 

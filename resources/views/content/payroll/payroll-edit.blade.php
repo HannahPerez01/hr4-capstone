@@ -243,7 +243,6 @@
             let updatedRate = parseFloat(document.getElementById('updated_rate').value) || 0;
             rate = parseFloat(selectedEmployee.getAttribute('data-position-rate')) || updatedRate;
 
-            console.log("Initial Rate:", rate); // Debugging
             recalculateTotal();
         });
 

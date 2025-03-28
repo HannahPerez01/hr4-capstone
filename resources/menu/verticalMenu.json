@@ -1,10 +1,10 @@
 {
   "menu": [
     {
-      "url": "dashboard/crm",
+      "url": "hr-analytics",
       "name": "HR Dashboard",
       "icon": "menu-icon tf-icons ti ti-smart-home",
-      "slug": "dashboard-crm",
+      "slug": "hr-analytics",
       "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator"]
     },
 
@@ -56,6 +56,13 @@
               "icon": "menu-icon tf-icons ti ti-clock",
               "slug": "performance",
               "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
+            },
+            {
+              "url": "performance/succession",
+              "name": "Succession",
+              "icon": "menu-icon tf-icons ti ti-clock",
+              "slug": "performance-succession",
+              "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
             }
           ]
         },
@@ -67,10 +74,10 @@
           "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
         },
         {
-          "url": "Leavemanagement/view",
+          "url": "leave-management",
           "name": "Leave and Attendance Management",
           "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "Leavemanagement-view",
+          "slug": "leave-management",
           "role": ["super_admin", "hr_manager", "hr_director", "hr_assistant", "hr_coordinator"]
         },
         {

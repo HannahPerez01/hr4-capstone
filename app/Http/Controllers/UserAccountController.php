@@ -18,7 +18,7 @@ class UserAccountController extends Controller
 
     public function index()
     {
-        $users     = $this->user->get();
+        $users     = $this->user->where('role', '!=', UserRoleEnum::EMPLOYEE->value)->get();
         $roleEnums = UserRoleEnum::toOptions();
 
         return view('content.pages.user-account', [

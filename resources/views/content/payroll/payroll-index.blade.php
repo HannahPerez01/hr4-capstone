@@ -18,10 +18,10 @@
 
     <div class="card">
         <div class="card">
-            <div>
+            {{-- <div>
                 <button type="button" class="btn btn-primary m-3"
                     onclick="location.href = '{{ route('payroll-create') }}'">Add Payroll</button>
-            </div>
+            </div> --}}
 
             @if (session()->has('success'))
                 <x-alert successMessage="{{ session('success') }}" />
@@ -40,12 +40,21 @@
                             <th>Rest Day OT Total</th>
                             <th>Total Deductions</th>
                             <th>Total Earnings</th>
+                            <th>Duration</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         @foreach ($payrolls as $payroll)
+                            @php
+                                $from = Carbon\Carbon::parse($payroll->from);
+                                $to = Carbon\Carbon::parse($payroll->to);
+                                $fromText = $from->format('F d, Y');
+                                $toText = $to->format('F d, Y');
+                                $duration = $from->diffInDays($to);
+                            @endphp
                             <tr>
                                 <td>{{ $payroll->employee->employee_code }}</td>
                                 <td>{{ $payroll->employee->name }}</td>
@@ -54,6 +63,12 @@
                                 <td>{{ $payroll->rd_ot_amount }}</td>
                                 <td>{{ $payroll->total_deductions }}</td>
                                 <td>{{ $payroll->total_earnings }}</td>
+                                <td>
+                                    <div>{{ $fromText }} to {{ $toText }}</div>
+                                    <hr />
+                                    <div>{{ $duration }} Days</div>
+                                </td>
+                                <td></td>
                                 <td class="d-flex gap-2">
                                     <button type="button" class="btn btn-success btn-sm"
                                         onclick="location.href = '{{ route('payroll-edit', ['id' => $payroll->id]) }}'">Update</button>

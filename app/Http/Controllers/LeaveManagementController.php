@@ -1,15 +1,26 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\FileLeave;
 use Illuminate\Support\Facades\DB;
+
 class LeaveManagementController extends Controller
 {
 
-       public function index(){
-                   $leave= DB::select("select  * FROM  hr3_leave_management  "); 
-       return view('content.corehuman.Leavemanagement-view',['leave'=>$leave]);
-   }
+    protected FileLeave $model;
+
+    public function __construct(FileLeave $model)
+    {
+        $this->model = $model;
+    }
+
+    public function index()
+    {
+        $leaves = $this->model->query()->with(['employee'])->get();
+
+        return view('content.corehuman.leave-management-index', [
+            'leaves' => $leaves
+        ]);
+    }
 
 }

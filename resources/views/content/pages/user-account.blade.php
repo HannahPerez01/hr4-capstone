@@ -41,7 +41,9 @@
                             <th>Email</th>
                             <th>Role</th>
                             <th>Date Created</th>
-                            <th>Action</th>
+                            @if (strtolower(auth()->user()->role) !== 'hr_coordinator')
+                                <th>Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -51,23 +53,23 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->role }}</td>
                                 <td>{{ $user->created_at }}</td>
-                                <td class="d-flex gap-2">
-                                    <div>
-                                        <button type="button" class="btn btn-success btn-sm"
-                                            onclick="location.href = '{{ route('user.edit', ['id' => $user->id]) }}'">Update</button>
-                                    </div>
+                                @if (strtolower(auth()->user()->role) !== 'hr_coordinator')
+                                    <td class="d-flex gap-2">
+                                        <div>
+                                            <button type="button" class="btn btn-success btn-sm"
+                                                onclick="location.href = '{{ route('user.edit', ['id' => $user->id]) }}'">Update</button>
+                                        </div>
 
-                                    <div>
-                                        <button type="button" class="btn btn-danger btn-sm delete-button"
-                                            data-action="{{ route('user.delete', ['id' => $user->id]) }}">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </td>
-
+                                        <div>
+                                            <button type="button" class="btn btn-danger btn-sm delete-button"
+                                                data-action="{{ route('user.delete', ['id' => $user->id]) }}">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
-
                     </tbody>
                 </table>
             </div>
