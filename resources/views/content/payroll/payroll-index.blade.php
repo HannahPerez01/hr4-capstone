@@ -29,6 +29,38 @@
                 <x-alert errorMessage="{{ session('error') }}" />
             @endif
 
+            <div class="w-100 px-5 pt-5">
+                <form action="{{ route('payroll.generate') }}" method="POST" class="row">
+                    @method('POST')
+                    @csrf
+                    <h5>
+                        <label for="job_position_id" class="form-label">Generate Payroll with AI Analysis and Error Salary
+                            Detection</label>
+                    </h5>
+                    <div class="col-md-3">
+                        <label for="job_position_id" class="form-label">Job Position</label>
+                        <select name="job_position_id" id="job_position_id" class="form-select">
+                            <option value="" selected>Select an option</option>
+                            @foreach ($jobPositions as $jobPosition)
+                                <option value="{{ $jobPosition->id }}">{{ $jobPosition->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="from" class="form-label">From</label>
+                        <input type="date" name="from" id="from" class="form-control" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="to" class="form-label">To</label>
+                        <input type="date" name="to" id="to" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-5 mt-3">
+                        <button type="submit" class="btn btn-sm btn-primary">Generate Payroll with AI response</button>
+                    </div>
+                </form>
+            </div>
+
             <div class="card-datatable table-responsive p-5">
                 <table class="datatables-projects table border-top" id="dataTable">
                     <thead>
@@ -53,7 +85,6 @@
                                 $to = Carbon\Carbon::parse($payroll->to);
                                 $fromText = $from->format('F d, Y');
                                 $toText = $to->format('F d, Y');
-                                $duration = $from->diffInDays($to);
                             @endphp
                             <tr>
                                 <td>{{ $payroll->employee->employee_code }}</td>
@@ -64,20 +95,62 @@
                                 <td>{{ $payroll->total_deductions }}</td>
                                 <td>{{ $payroll->total_earnings }}</td>
                                 <td>
-                                    <div>{{ $fromText }} to {{ $toText }}</div>
-                                    <hr />
-                                    <div>{{ $duration }} Days</div>
+                                    <span>{{ $fromText }} to {{ $toText }}</sp>
                                 </td>
-                                <td></td>
-                                <td class="d-flex gap-2">
-                                    <button type="button" class="btn btn-success btn-sm"
-                                        onclick="location.href = '{{ route('payroll-edit', ['id' => $payroll->id]) }}'">Update</button>
-                                    <div>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modal-{{ $payroll->id }}"
-                                            data-action="{{ route('payroll-delete', ['id' => $payroll->id]) }}">
-                                            Delete
+                                <td>{{ $payroll->status }}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle" type="button"
+                                            id="dropdownMenuButton{{ $payroll->id }}" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="tf-icons ti ti-dots-vertical" />
                                         </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $payroll->id }}">
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('payroll-view', ['id' => $payroll->id]) }}"
+                                                    data-bs-toggle="tooltip" title="View Payroll">
+                                                    <span><i class="tf-icons ti ti-eye"></i></span> View Payroll
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <form action="{{ route('payroll-generate-payslip-to-ess', ['id' => $payroll->id]) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="dropdown-item">
+                                                        <i class="tf-icons ti ti-files"></i> Generate Payslip to ESS
+                                                    </button>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('payroll-edit', ['id' => $payroll->id]) }}"
+                                                    data-bs-toggle="tooltip" title="Generate Payroll Records to Finance">
+                                                    <span><i class="tf-icons ti ti-receipt"></i></span> Generate Payroll Records to Finance
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('payroll-edit', ['id' => $payroll->id]) }}"
+                                                    data-bs-toggle="tooltip" title="Print">
+                                                    <span><i class="tf-icons ti ti-printer"></i></span> Print
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-success"
+                                                    href="{{ route('payroll-edit', ['id' => $payroll->id]) }}"
+                                                    data-bs-toggle="tooltip" title="Update Payroll">
+                                                    <span><i class="tf-icons ti ti-edit"></i></span> Update Payroll
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-danger" href="#" data-toggle="modal"
+                                                    data-target="#modal-{{ $payroll->id }}" data-bs-toggle="tooltip"
+                                                    title="Delete Payroll">
+                                                    <span><i class="tf-icons ti ti-trash"></i></span> Delete Payroll
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
 
                                     {{-- MODAL FOR DELETE CONFIRMATION --}}

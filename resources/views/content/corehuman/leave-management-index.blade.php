@@ -42,8 +42,8 @@
                                 <td>{{ $leave->employee->name }}</td>
                                 <td>{{ $leave->project_name }}</td>
                                 <td>{{ $leave->leave_type }}</td>
-                                <td>{{ $leave->start_date }}</td>
-                                <td>{{ $leave->end_date }}</td>
+                                <td>{{ $leave->start_date->format('F d, Y') }}</td>
+                                <td>{{ $leave->end_date->format('F d, Y') }}</td>
                                 <td>{{ $leave->status }}</td>
                             </tr>
                         @endforeach

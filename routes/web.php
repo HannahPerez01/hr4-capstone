@@ -1,24 +1,23 @@
 <?php
-use App\Http\Controllers\apps\Chat;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apps\Calendar;
-use App\Http\Controllers\dashboard\Crm;
+use App\Http\Controllers\apps\Chat;
+use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\ClaimController;
+use App\Http\Controllers\CompensationController;
+use App\Http\Controllers\CompensationPlanController;
+use App\Http\Controllers\EmployeeProfileController;
+use App\Http\Controllers\HRAnalyticsController;
+use App\Http\Controllers\language\LanguageController;
+use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\LeaveManagementController;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\PayrollController;
-use App\Http\Controllers\HRAnalyticsController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\RecruitmentController;
-use App\Http\Controllers\UserAccountController;
-use App\Http\Controllers\CompensationController;
-use App\Http\Controllers\EmployeeProfileController;
-use App\Http\Controllers\LeaveManagementController;
-use App\Http\Controllers\authentications\LoginBasic;
-use App\Http\Controllers\CompensationPlanController;
-use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\ShiftandschedulingController;
-use App\Http\Controllers\laravel_example\UserManagement;
+use App\Http\Controllers\UserAccountController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
 
@@ -33,13 +32,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/claims/{id}', 'edit')->name('claims.edit');
             Route::put('/claims/{id}', 'update')->name('claims.update');
             Route::delete('/claims/{id}', 'destroy')->name('claims.delete');
-        });
-
-    Route::controller(LeaveController::class)
-        ->group(function () {
-            Route::post('/Leave', 'store')->name('Leave.store');
-            Route::post('/Leaveupdate', 'Leaveupdate')->name('Leaveupdate.Leaveupdate');
-            Route::delete('/Leave/{id}', 'destroy')->name('Leave.delete');
         });
 
     Route::controller(ShiftandschedulingController::class)
@@ -63,10 +55,13 @@ Route::middleware('auth')->group(function () {
             Route::get('/payroll/', 'index')->name('payroll');
             Route::get('/payroll/create', 'create')->name('payroll-create');
             Route::post('/payroll/store', 'store')->name('payroll-store');
+            Route::get('/payroll/view/{id}', 'show')->name('payroll-view');
             Route::get('/payroll/edit/{id}', 'edit')->name('payroll-edit');
             Route::put('/payroll/update/{id}', 'update')->name('payroll-update');
             Route::delete('/payroll/delete/{id}', 'destroy')->name('payroll-delete');
             Route::get('/payroll-records', 'records')->name('payroll.records');
+            Route::post('/payroll/generate', 'generatePayroll')->name('payroll.generate');
+            Route::put('/payroll/generate-payslip/{id}', 'generatePayslip')->name('payroll-generate-payslip-to-ess');
         });
 
     Route::controller(EmployeeProfileController::class)
