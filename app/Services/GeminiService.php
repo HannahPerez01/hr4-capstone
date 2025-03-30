@@ -26,10 +26,16 @@ class GeminiService
             Regular Hours: {$employees['regular_hours']}
             Overtime Hours: {$employees['overtime_hours']}
             Gross Salary: ₱{$employees['salary']}
-            Deductions:
-            - SSS: ₱{$employees['sss']}
-            - PhilHealth: ₱{$employees['philhealth']}
-            - PAG-IBIG: ₱{$employees['pagibig']}
+            Deductions (Employee Share):
+            - SSS: ₱{$employees['sss_employee_share']}
+            - PhilHealth: ₱{$employees['philhealth_employee_share']}
+            - PAG-IBIG: ₱{$employees['pag_ibig_employee_share']}
+
+            Employer Contributions:
+            - SSS: ₱{$employees['sss_employer_share']}
+            - PhilHealth: ₱{$employees['philhealth_employer_share']}
+            - PAG-IBIG: ₱{$employees['pag_ibig_employer_share']}
+
             Net Salary: ₱{$employees['net_salary']}
 
             **Error Detection & AI Insights:**
@@ -40,6 +46,7 @@ class GeminiService
             Overtime Pay: ₱{$employees['total_overtime_amount']}
             Total Net Pay: ₱{$employees['net_salary']}
 
+            The SSS, Philhealth and PagIBIG contribution of employer and employee will be listed.
             Format the response in HTML. Do not include HTML headers or conversational language. Present it as a **formal payroll report**.
             This is the data you can use  " . json_encode($employees) . "
             ";

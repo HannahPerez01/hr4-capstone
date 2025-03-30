@@ -165,24 +165,27 @@ class PayrollController extends Controller
             $totalAmount         = $totalHoursWorked * $jobPosition->hourly_rate;
             $totalOvertimeAmount = $jobPosition->hourly_rate * 1.25 * $totalOvertime;
             $salary              = $totalAmount + $totalOvertimeAmount;
-            $total_earnings      = $salary - 2220;
+            $total_earnings      = $salary - 1100;
 
             // Send individual request to Gemini AI
             $aiResponse = $this->geminiService->generatePayroll([
-                'name'                  => $employee->name,
-                'hourly_rate'           => $jobPosition->hourly_rate,
-                'ot_percentage'         => 1.25,
-                'total_hours'           => $hoursWorked,
-                'regular_hours'         => $totalHoursWorked,
-                'overtime_hours'        => $totalOvertime,
-                'hours_worked_and_rate' => $totalAmount,
-                'total_overtime_amount' => $totalOvertimeAmount,
-                'salary'                => $salary,
-                'sss'                   => 1350,
-                'philhealth'            => 750,
-                'pagibig'               => 100,
-                'total_deductions'      => 2200,
-                'net_salary'            => $total_earnings,
+                'name'                      => $employee->name,
+                'hourly_rate'               => $jobPosition->hourly_rate,
+                'ot_percentage'             => 1.25,
+                'total_hours'               => $hoursWorked,
+                'regular_hours'             => $totalHoursWorked,
+                'overtime_hours'            => $totalOvertime,
+                'hours_worked_and_rate'     => $totalAmount,
+                'total_overtime_amount'     => $totalOvertimeAmount,
+                'salary'                    => $salary,
+                'pag_ibig_employee_share'   => 50,
+                'pag_ibig_employer_share'   => 50,
+                'sss_employee_share'        => 675,
+                'sss_employer_share'        => 675,
+                'philhealth_employee_share' => 375,
+                'philhealth_employer_share' => 375,
+                'total_deductions'          => 2200,
+                'net_salary'                => $total_earnings,
             ]);
 
             // Extract AI response text
@@ -200,10 +203,10 @@ class PayrollController extends Controller
                 'reg_ot_amount'       => $totalOvertimeAmount,
                 'rd_ot_hours'         => $request->rd_ot,
                 'rd_ot_amount'        => $request->rd_ot_render,
-                'pag_ibig'            => 100,
-                'sss'                 => 1350,
-                'philhealth'          => 750,
-                'total_deductions'    => 2200,
+                'sss'                 => 675,
+                'philhealth'          => 375,
+                'pagibig'             => 50,
+                'total_deductions'    => 1100,
                 'total_earnings'      => $total_earnings,
                 'status'              => PayrollStatusEnum::NOT_STARTED->value,
                 'response'            => $aiText,
