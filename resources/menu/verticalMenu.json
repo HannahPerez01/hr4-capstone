@@ -15,18 +15,18 @@
       "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator", "hr_specialist"],
       "submenu": [
         {
-          "url": "payroll",
-          "name": "ESS Payroll",
-          "icon": "menu-icon tf-icons ti ti-clock",
-          "slug": "payroll",
-          "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator", "hr_specialist"]
-        },
-        {
           "url": "payroll-records",
-          "name": "Timesheet and Payroll",
+          "name": "ESS Payroll",
           "icon": "menu-icon tf-icons ti ti-clock",
           "slug": "records",
           "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator"]
+        },
+        {
+          "url": "payroll",
+          "name": "Timesheet & Payroll",
+          "icon": "menu-icon tf-icons ti ti-clock",
+          "slug": "payroll",
+          "role": ["super_admin", "hr_manager", "hr_director", "hr_coordinator", "hr_specialist"]
         }
       ]
     },
