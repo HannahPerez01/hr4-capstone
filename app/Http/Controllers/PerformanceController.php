@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Performance;
+use App\Enum\SuccessionStatusEnum;
 use App\Models\SuccessionPlanning;
 
 class PerformanceController extends Controller
@@ -27,7 +28,7 @@ class PerformanceController extends Controller
 
     public function succession()
     {
-        $successions = $this->successionPlanning->query()->with('employee')->get();
+        $successions = $this->successionPlanning->query()->where('status', SuccessionStatusEnum::READY_NOW->value)->with('employee')->get();
 
         return view('content.corehuman.performance-succession', [
             'successions' => $successions
