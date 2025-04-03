@@ -85,6 +85,13 @@
                                 $to = Carbon\Carbon::parse($payroll->to);
                                 $fromText = $from->format('F d, Y');
                                 $toText = $to->format('F d, Y');
+
+                                $status = match (strtolower($payroll->status)) {
+                                    'not started' => 'bg-warning text-white',
+                                    'in progress' => 'bg-secondary text-white',
+                                    'completed' => 'bg-success text-white',
+                                    default => 'bg-default',
+                                };
                             @endphp
                             <tr>
                                 <td>{{ $payroll->employee->employee_code }}</td>
@@ -97,7 +104,9 @@
                                 <td>
                                     <span>{{ $fromText }} to {{ $toText }}</sp>
                                 </td>
-                                <td>{{ $payroll->status }}</td>
+                                <td>
+                                    <span class="badge rounded {{ $status }}">{{ $payroll->status }}</span>
+                                </td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle" type="button"
@@ -114,7 +123,9 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <form action="{{ route('payroll-generate-payslip-to-ess', ['id' => $payroll->id]) }}" method="POST">
+                                                <form
+                                                    action="{{ route('payroll-generate-payslip-to-ess', ['id' => $payroll->id]) }}"
+                                                    method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit" class="dropdown-item">
@@ -123,11 +134,15 @@
                                                 </form>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item"
-                                                    href="{{ route('payroll-edit', ['id' => $payroll->id]) }}"
-                                                    data-bs-toggle="tooltip" title="Generate Payroll Records to Finance">
-                                                    <span><i class="tf-icons ti ti-receipt"></i></span> Generate Payroll Records to Finance
-                                                </a>
+                                                <form
+                                                    action="{{ route('payroll.generate-to-finance', ['id' => $payroll->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <button type="submit" class="dropdown-item">
+                                                        <i class="tf-icons ti ti-receipt"></i> Generate Payroll Records to Finance
+                                                    </button>
+                                                </form>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item"

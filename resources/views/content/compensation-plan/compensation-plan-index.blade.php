@@ -74,11 +74,15 @@
                 html += `<h1 class="mt-5">${jobTitle}</h1>`
 
                 // 🏆 Salary Grade Levels Table
-                html += `<h3 class="mt-5">Salary Grade Levels</h3>
+                html += `<h3 class="mt-5">Salary Grade Levels</h3>`;
+                group.salary_grade_level.forEach(level => {
+
+                    html += `
+                <h5 class="mt-1">${level.job_title}</h5>
                 <div class="table-responsive">
                      <table border="1" class="table">
                          <tr>
-                             <th>Job Role</th>
+                             <th>Level</th>
                              <th>Level 1</th>
                              <th>Level 2</th>
                              <th>Level 3</th>
@@ -89,22 +93,24 @@
                              <th>Level 8</th>
                          </tr>`;
 
-                group.salary_grade_level.forEach(level => {
-                    html += `<tr>
-                             <td>${level.job_title}</td>
-                             <td>${level.step_1}</td>
-                             <td>${level.step_2}</td>
-                             <td>${level.step_3}</td>
-                             <td>${level.step_4}</td>
-                             <td>${level.step_5}</td>
-                             <td>${level.step_6}</td>
-                             <td>${level.step_7}</td>
-                             <td>${level.step_8}</td>
+                    level.groupLevel.forEach(groupLevel => {
+                        html += `<tr>
+                             <td>${groupLevel.title}</td>
+                             <td>${groupLevel.step_1}</td>
+                             <td>${groupLevel.step_2}</td>
+                             <td>${groupLevel.step_3}</td>
+                             <td>${groupLevel.step_4}</td>
+                             <td>${groupLevel.step_5}</td>
+                             <td>${groupLevel.step_6}</td>
+                             <td>${groupLevel.step_7}</td>
+                             <td>${groupLevel.step_8}</td>
                          </tr>`;
+                    });
+
+                    html += `</table>
+                </div>`;
                 });
 
-                html += `</table>
-                </div>`;
 
                 html += `<h3 class="mt-5">Overtime Pay Computation</h3>
                 <div class="w-100 border p-3">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Enum\PayrollStatusEnum;
 use App\Http\Requests\PayrollRequest;
 use App\Models\Employee;
+use App\Models\Finance;
 use App\Models\JobPosition;
 use App\Models\Payroll;
 use App\Models\Timesheet;
@@ -208,7 +209,7 @@ class PayrollController extends Controller
                 'pagibig'             => 50,
                 'total_deductions'    => 1100,
                 'total_earnings'      => $total_earnings,
-                'status'              => PayrollStatusEnum::NOT_STARTED->value,
+                'status'              => PayrollStatusEnum::IN_PROGRESS->value,
                 'response'            => $aiText,
             ]);
 
@@ -251,6 +252,28 @@ class PayrollController extends Controller
         }
 
         return redirect()->back()->with('success', 'Payslip is successfully generated to ESS');
+    }
+
+    public function generatePayrollToFinance(string $id)
+    {
+        $payroll = $this->model->find($id);
+
+        if (! $payroll) {
+            return redirect()->back()->with('errors', 'Payroll is not exists!');
+        }
+
+        $finance = Finance::create([
+            'amount'       => $payroll->total_earnings,
+            'category'     => 'Disbursement',
+            'requested_by' => strtoupper(auth()->user()->role),
+            'status'       => 'Pending',
+        ]);
+
+        if (! $finance) {
+            return redirect()->back()->with('errors', 'There was an error in generating payroll records to finance!');
+        }
+
+        return redirect()->back()->with('success', 'Payroll record generated to finance successfully!');
     }
 
 }

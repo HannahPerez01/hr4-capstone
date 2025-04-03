@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/payroll-records', 'records')->name('payroll.records');
             Route::post('/payroll/generate', 'generatePayroll')->name('payroll.generate');
             Route::put('/payroll/generate-payslip/{id}', 'generatePayslip')->name('payroll-generate-payslip-to-ess');
+            Route::post('/payroll/generate-records-to-finance/{id}', 'generatePayrollToFinance')->name('payroll.generate-to-finance');
         });
 
     Route::controller(EmployeeProfileController::class)
