@@ -101,7 +101,10 @@
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
                 data-bs-auto-close="outside" aria-expanded="false">
                 <i class="ti ti-bell ti-md"></i>
-                <span class="badge bg-danger rounded-pill badge-notifications">1</span>
+                @if (Auth::user()->notifications->whereNull('read_at')->count() > 0)
+                    <span
+                        class="badge bg-danger rounded-pill badge-notifications">{{ Auth::user()->notifications->whereNull('read_at')->count() }}</span>
+                @endif
             </a>
             <ul class="dropdown-menu dropdown-menu-end py-0">
                 <li class="dropdown-menu-header border-bottom">
@@ -114,27 +117,37 @@
                 </li>
                 <li class="dropdown-notifications-list scrollable-container">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                            <div class="d-flex">
-                                <div class="flex-shrink-0 me-3">
-                                    <div class="avatar">
-                                        <img src="{{ asset('assets/img/icons.jpg') }}" alt
-                                            class="h-auto rounded-circle">
+                        @if (Auth::user()->notifications->isNotEmpty())
+                            @foreach (Auth::user()->notifications as $notification)
+                                <li class="list-group-item list-group-item-action dropdown-notifications-item notification-item"
+                                    data-id="{{ $notification->id }}">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0 me-3">
+                                            <div class="avatar">
+                                                <img src="{{ asset('assets/img/avatars/1.png') }}" alt
+                                                    class="h-auto rounded-circle">
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">{{ $notification['data']['title'] }}</h6>
+                                            <p>{{ $notification['data']['message'] ?? '' }}</p>
+                                            <small
+                                                class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                                        </div>
+
+                                        @if ($notification->read_at == null)
+                                            <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                                        class="badge badge-dot"></span></a>
+                                            </div>
+                                        @endif
                                     </div>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1">HR1</h6>
-                                    <p class="mb-0">LEAVE MANAGEM</p>
-                                    <small class="text-muted">1h ago</small>
-                                </div>
-                                <div class="flex-shrink-0 dropdown-notifications-actions">
-                                    <a href="javascript:void(0)" class="dropdown-notifications-read"><span
-                                            class="badge badge-dot"></span></a>
-                                    <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
-                                            class="ti ti-x"></span></a>
-                                </div>
-                            </div>
-                        </li>
+                                </li>
+                            @endforeach
+                        @else
+                            <p class="text-center">No notifications yet.</p>
+                        @endif
                     </ul>
                 </li>
                 <li class="dropdown-menu-footer border-top">
@@ -150,8 +163,7 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
-                    <img src="" alt="User Avatar"
-                        class="h-auto rounded-circle" />
+                    <img src="" alt="User Avatar" class="h-auto rounded-circle" />
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -163,8 +175,7 @@
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
-                                            <img src="" alt
-                                                class="h-auto rounded-circle">
+                                            <img src="" alt class="h-auto rounded-circle">
                                         </div>
                                     </div>
                                 </div>
@@ -231,3 +242,39 @@
 @endif
 </nav>
 <!-- / Navbar -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".notification-item").click(function() {
+            let notificationId = $(this).data("id");
+            let $notificationItem = $(this);
+
+            $.ajax({
+                url: `/notifications/${notificationId}/mark-as-read`,
+                type: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Remove the unread notification styling
+                        $notificationItem.find(".badge-dot").removeClass("unread").addClass(
+                            "read");
+
+                        // Update the unread notifications badge count
+                        let currentCount = parseInt($(".badge-notifications").text(), 10);
+                        if (currentCount > 0) {
+                            $(".badge-notifications").text(currentCount - 1);
+                        }
+                    } else {
+                        console.error("Error marking notification as read:", response
+                            .message);
+                    }
+                },
+                error: function(xhr) {
+                    console.error("AJAX Error:", xhr.responseText);
+                }
+            });
+        });
+    });
+</script>

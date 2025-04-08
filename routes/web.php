@@ -1,25 +1,34 @@
 <?php
-use App\Http\Controllers\apps\Calendar;
 use App\Http\Controllers\apps\Chat;
-use App\Http\Controllers\authentications\LoginBasic;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\apps\Calendar;
 use App\Http\Controllers\ClaimController;
-use App\Http\Controllers\CompensationController;
-use App\Http\Controllers\CompensationPlanController;
-use App\Http\Controllers\EmployeeProfileController;
-use App\Http\Controllers\HRAnalyticsController;
-use App\Http\Controllers\language\LanguageController;
-use App\Http\Controllers\laravel_example\UserManagement;
 use App\Http\Controllers\LeaveController;
-use App\Http\Controllers\LeaveManagementController;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\HRAnalyticsController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\RecruitmentController;
-use App\Http\Controllers\ShiftandschedulingController;
 use App\Http\Controllers\UserAccountController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompensationController;
+use Illuminate\Notifications\DatabaseNotification;
+use App\Http\Controllers\EmployeeProfileController;
+use App\Http\Controllers\LeaveManagementController;
+use App\Http\Controllers\authentications\LoginBasic;
+use App\Http\Controllers\CompensationPlanController;
+use App\Http\Controllers\language\LanguageController;
+use App\Http\Controllers\ShiftandschedulingController;
+use App\Http\Controllers\laravel_example\UserManagement;
 
 Route::middleware('auth')->group(function () {
+    Route::post('/notifications/{id}/mark-as-read', function ($id) {
+        $notification = DatabaseNotification::find($id);
+
+        if ($notification) {
+            $notification->markAsRead();
+        }
+        return response()->json(['success' => true]);
+    })->name('notifications.markAsRead');
 
     Route::get('/app/chat', [Chat::class, 'index'])->name('app-chat');
     Route::post('/logout', [App\Http\Controllers\LogoutController::class, 'logout'])->name('logout');
@@ -91,6 +100,7 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/performance', 'index')->name('performance');
             Route::get('/performance/succession', 'succession')->name('performance-succession');
+            Route::put('/performance/succession/request', 'successionRequest')->name('performance-succession-request');
         });
 
     Route::controller(RecruitmentController::class)

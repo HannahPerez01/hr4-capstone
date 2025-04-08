@@ -16,6 +16,8 @@ class SuccessionPlanning extends Model
         'potential_successor',
         'development_needs',
         'readiness_level',
+        'status',
+        'request_status',
     ];
 
     public function employee()

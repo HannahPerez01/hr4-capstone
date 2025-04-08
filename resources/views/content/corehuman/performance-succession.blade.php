@@ -24,8 +24,20 @@
     <div class="">
         <div class="card">
             <div class="pt-5 px-5">
-                {{-- <button class="btn btn-dark btn-sm" onclick="location.href = '{{ route('employee-profile') }}'">Back</button> --}}
+                <form action="{{ route('performance-succession-request') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <button class="btn btn-dark btn-sm" type="submit">Request to HR2</button>
+                </form>
             </div>
+
+            @if (session()->has('success'))
+                <x-alert successMessage="{{ session('success') }}" />
+            @elseif(session()->has('error'))
+                <x-alert errorMessage="{{ session('error') }}" />
+            @endif
+            
             <div class="card-datatable table-responsive p-5">
                 <table class="datatables-projects table border-top" id="dataTable">
                     <thead>
