@@ -1,19 +1,18 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Finance;
-use App\Models\Payroll;
-use App\Models\Employee;
-use App\Models\Timesheet;
-use App\Enum\UserRoleEnum;
-use App\Models\JobPosition;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Enum\PayrollStatusEnum;
-use App\Services\GeminiService;
 use App\Http\Requests\PayrollRequest;
+use App\Models\Employee;
+use App\Models\Finance;
+use App\Models\JobPosition;
+use App\Models\Payroll;
+use App\Models\Timesheet;
+use App\Models\User;
 use App\Notifications\PayslipNotification;
+use App\Services\GeminiService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PayrollController extends Controller
 {
@@ -27,7 +26,7 @@ class PayrollController extends Controller
         $this->model         = $model;
         $this->jobPosition   = $jobPosition;
         $this->geminiService = $geminiService;
-        $this->user = $user;
+        $this->user          = $user;
     }
 
     public function index()
@@ -247,15 +246,8 @@ class PayrollController extends Controller
         $payroll->generate_payslip = true;
         $payroll->save();
 
-        // Send notification to ESS and HR 2 Admin
-        $users = $this->user->where('role', UserRoleEnum::HR2_ADMIN->value)->get();
-
-        if ($employee->user) {
-            $employee->user->notify(new PayslipNotification($payroll));
-            foreach ($users as $user) {
-                $user->notify(new PayslipNotification($payroll));
-            }
-        }
+        // Send notification to ESS
+        $employee->user->notify(new PayslipNotification($payroll));
 
         return redirect()->back()->with('success', 'Payslip is successfully generated to ESS');
     }
