@@ -32,23 +32,27 @@
                             <th>SSS Contribution Salary</th>
                             <th>Total</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
 
-                    {{-- <tbody>
-                        @foreach ($deduction as $claim)
+                    <tbody>
+                        @foreach ($payrolls as $payroll)
                             <tr class="contents">
-                                <td style="display:none;">{{ $claim->deduction_id }}</td>
-                                <td>{{ $claim->employee_id }}</td>
-                                <td>{{ $claim->pagibig}}</td>
-                                <td>{{ $claim->philhealth}}</td>
-                                <td>{{ $claim->sss}}</td>
-                                <td>{{ $claim->created_at}}</td>
-                                <td><button class=" btn btn-primary btn-sm  btn-flat" id="update_btn">Update</button></td>
+                                <td>{{ $payroll->code }}</td>
+                                <td>{{ $payroll->employee->employee_code }}</td>
+                                <td>{{ $payroll->employee->name }}</td>
+                                <td>{{ $payroll->basic_salary_amount }}</td>
+                                <td>{{ $payroll->basic_salary_hours }}</td>
+                                <td>{{ $payroll->reg_ot_amount }}</td>
+                                <td>{{ $payroll->rd_ot_amount }}</td>
+                                <td>{{ $payroll->pag_ibig }}</td>
+                                <td>{{ $payroll->philhealth }}</td>
+                                <td>{{ $payroll->sss }}</td>
+                                <td>{{ $payroll->total_earnings }}</td>
+                                <td>{{ $payroll->status }}</td>
                             </tr>
                         @endforeach
-                    </tbody> --}}
+                    </tbody>
                 </table>
             </div>
         </div>

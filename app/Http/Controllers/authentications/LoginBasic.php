@@ -21,18 +21,15 @@ class LoginBasic extends Controller
 
     public function loginpost(Request $request)
     {
-                                                            // Validate the login request
         $key          = 'login_attempts_' . $request->ip(); // Unique key based on IP
         $maxAttempts  = 3;                                  // Maximum login attempts
         $decaySeconds = 70;                                 // Lockout time in seconds (1 minute)
 
         // Check if the user is blocked
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
-            $seconds = RateLimiter::availableIn($key);
-
             return back()->withErrors([
-                'email' => "Too many login attempts. Please try again in $seconds seconds.",
-            ])->with('cooldown', $seconds);
+                'email' => "Too many login attempts."
+            ])->with('lockout_time', RateLimiter::availableIn($key));
         }
 
         // Validate user input

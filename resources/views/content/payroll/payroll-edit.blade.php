@@ -160,46 +160,98 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mt-5">
-                            <div class="row w-50">
-                                <div class="col">
-                                    <label for="" class="form-label">PAGIBIG CONTRIBUTION</label>
+
+                        {{-- EMPLOYEE DEDUCTIONS --}}
+                        <div class="mt-5">
+                            <h5>Employee Deductions</h5>
+                            <div class="col-md-12">
+                                <div class="row w-50">
+                                    <div class="col">
+                                        <label for="" class="form-label">PAGIBIG CONTRIBUTION</label>
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                    <div class="col" id="pag_ibig_render1">
+                                        50
+                                    </div>
+                                    <input type="hidden" name="pag_ibig_render1" value="50"
+                                        id="pag_ibig_render_hidden">
                                 </div>
-                                <div class="col">
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="row w-50">
+                                    <div class="col">
+                                        <label for="" class="form-label">PHILHEALTH CONTRIBUTION</label>
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                    <div class="col" id="philhealth_render1">
+                                        {{ $payroll->philhealth }}
+                                    </div>
+                                    <input type="hidden" name="philhealth_render1" value="{{ $payroll->philhealth }}"
+                                        id="philhealth_render_hidden">
                                 </div>
-                                <div class="col" id="pag_ibig_render">
-                                    {{ $payroll->pag_ibig }}
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="row w-50">
+                                    <div class="col">
+                                        <label for="" class="form-label">SSS CONTRIBUTION</label>
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                    <div class="col" id="sss_render1">
+                                        {{ $payroll->sss }}
+                                    </div>
+                                    <input type="hidden" name="sss_render1" value="{{ $payroll->sss }}"
+                                        id="sss_render_hidden">
                                 </div>
-                                <input type="hidden" name="pag_ibig_render" value="{{ $payroll->pag_ibig }}"
-                                    id="pag_ibig_render_hidden">
                             </div>
                         </div>
-                        <div class="col-md-12 mt-2">
-                            <div class="row w-50">
-                                <div class="col">
-                                    <label for="" class="form-label">PHILHEALTH CONTRIBUTION</label>
+
+                        {{-- EMPLOYER DEDUCTIONS --}}
+                        <div class="mt-5">
+                            <h5>Employer Deductions</h5>
+                            <div class="col-md-12">
+                                <div class="row w-50">
+                                    <div class="col">
+                                        <label for="" class="form-label">PAGIBIG CONTRIBUTION</label>
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                    <div class="col" id="pag_ibig_render2">
+                                        50
+                                    </div>
+                                    <input type="hidden" name="pag_ibig_render2" value="50"
+                                        id="pag_ibig_render_hidden">
                                 </div>
-                                <div class="col">
-                                </div>
-                                <div class="col" id="philhealth_render">
-                                    {{ $payroll->philhealth }}
-                                </div>
-                                <input type="hidden" name="philhealth_render" value="{{ $payroll->philhealth }}"
-                                    id="philhealth_render_hidden">
                             </div>
-                        </div>
-                        <div class="col-md-12 mt-2">
-                            <div class="row w-50">
-                                <div class="col">
-                                    <label for="" class="form-label">SSS CONTRIBUTION</label>
+                            <div class="col-md-12 mt-2">
+                                <div class="row w-50">
+                                    <div class="col">
+                                        <label for="" class="form-label">PHILHEALTH CONTRIBUTION</label>
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                    <div class="col" id="philhealth_render2">
+                                        {{ $payroll->philhealth }}
+                                    </div>
+                                    <input type="hidden" name="philhealth_render2" value="{{ $payroll->philhealth }}"
+                                        id="philhealth_render_hidden">
                                 </div>
-                                <div class="col">
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <div class="row w-50">
+                                    <div class="col">
+                                        <label for="" class="form-label">SSS CONTRIBUTION</label>
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                    <div class="col" id="sss_render2">
+                                        {{ $payroll->sss }}
+                                    </div>
+                                    <input type="hidden" name="sss_render2" value="{{ $payroll->sss }}"
+                                        id="sss_render_hidden">
                                 </div>
-                                <div class="col" id="sss_render">
-                                    {{ $payroll->sss }}
-                                </div>
-                                <input type="hidden" name="sss_render" value="{{ $payroll->sss }}"
-                                    id="sss_render_hidden">
                             </div>
                         </div>
 
@@ -269,9 +321,12 @@
             let totalDeductions = totalEarnings - 1350 - 750 - 100;
 
             document.getElementById('total_earnings_render').textContent = totalDeductions.toFixed(2);
-            document.getElementById('pag_ibig_render').textContent = 100;
-            document.getElementById('sss_render').textContent = 1350;
-            document.getElementById('philhealth_render').textContent = 750;
+            document.getElementById('pag_ibig_render1').textContent = 50;
+            document.getElementById('pag_ibig_render2').textContent = 50;
+            document.getElementById('sss_render1').textContent = 675;
+            document.getElementById('sss_render2').textContent = 675;
+            document.getElementById('philhealth_render1').textContent = 375;
+            document.getElementById('philhealth_render2').textContent = 375;
             document.getElementById('total_deduction_render').textContent = 2200;
 
             // Update hidden fields for form submission

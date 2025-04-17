@@ -31,15 +31,16 @@
                         </div>
                         <p class="app-brand-text demo text-body fw-bold ms-1" style="text-align:center;">LOGIN</p>
 
-                        @if (session()->has('success'))
-                            <div class="alert alert-success">
-                                <span>{{ session('success') }}</span>
-                            </div>
-                        @elseif($errors->any())
+                        @if ($errors->any() && !session('lockout_time'))
                             <div class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
-                                    <span>{{ $error }}</span>
+                                    <span id="login-error">{{ $error }}</span>
                                 @endforeach
+                            </div>
+                        @elseif (session('lockout_time'))
+                            <div class="alert alert-danger">
+                                <span>Too many login attempts. Please try again in <span
+                                        id="countdown">{{ session('lockout_time') }}</span> seconds.</span>
                             </div>
                         @endif
 
@@ -50,7 +51,7 @@
                                 <label for="email" class="form-label">Email or Username</label>
                                 <input type="text" class="form-control" id="email" name="email"
                                     placeholder="Enter your email or username"
-                                    @if (session('cooldown')) disabled @endif autofocus>
+                                    @if (session('lockout_time')) disabled @endif autofocus>
 
                             </div>
                             <div class="mb-3 form-password-toggle">
@@ -63,7 +64,7 @@
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password" class="form-control" name="password"
                                         placeholder="Enter you password" @if (session('cooldown')) disabled @endif
-                                        aria-describedby="password" required/>
+                                        aria-describedby="password" required />
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
                             </div>
@@ -84,18 +85,24 @@
         </div>
     </div>
 
-    @if (session('lockout'))
-        <script>
-            Swal.fire({
-                title: 'Too many attempts!',
-                text: 'You have been locked out due to too many login attempts. Please try again in 3 minutes.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let countdownElement = document.getElementById("countdown");
+            if (!countdownElement) return;
+
+            let seconds = parseInt(countdownElement.innerText);
+
+            function updateCountdown() {
+                if (seconds <= 0) {
                     location.reload();
+                    return;
                 }
-            });
-        </script>
-    @endif
+                countdownElement.innerText = seconds;
+                seconds--;
+                setTimeout(updateCountdown, 1000);
+            }
+
+            updateCountdown();
+        });
+    </script>
 @endsection
