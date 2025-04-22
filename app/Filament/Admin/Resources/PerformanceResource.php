@@ -27,6 +27,10 @@ class PerformanceResource extends Resource
                     ->relationship('employee', 'name')
                     ->required(),
 
+                Select::make('job_position_id')
+                    ->relationship('jobPosition', 'title')
+                    ->required(),
+
                 Select::make('department')
                     ->options(DepartmentEnum::toOptions())
                     ->required(),

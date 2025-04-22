@@ -3,11 +3,52 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #printable-dashboard,
+            #printable-dashboard * {
+                visibility: visible;
+            }
+
+            #printable-dashboard {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+
+            .card {
+                width: 100%;
+            }
+
+            .btn,
+            .d-flex.justify-content-end, {
+                display: none !important;
+            }
+        }
+    </style>
     @if (session()->has('success'))
         <x-alert successMessage="{{ session('success') }}" />
     @endif
 
-    <div class="container mt-3">
+    <div class="d-flex justify-content-end gap-2 mb-3">
+        <button class="btn btn-sm btn-secondary" onclick="window.print()">
+            <i class="ti ti-printer"></i> Print Dashboard
+        </button>
+        <a href="{{ route('dashboard.export-pdf') }}" class="btn btn-sm btn-danger">
+            <i class="ti ti-files"></i> Export as PDF
+        </a>
+        <a href="{{ route('dashboard.export-excel') }}" class="btn btn-sm btn-success">
+            <i class="ti ti-file"></i>
+            Export as Excel
+        </a>
+    </div>
+
+    <div class="container mt-3" id="printable-dashboard">
         <div class="row align-items-start">
             <div class="col-md-4">
                 <x-card-component title="Total Employees" :description="$employeesCount" />

@@ -1,24 +1,23 @@
 <?php
-use App\Http\Controllers\apps\Chat;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apps\Calendar;
+use App\Http\Controllers\apps\Chat;
+use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\ClaimController;
-use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\CompensationController;
+use App\Http\Controllers\CompensationPlanController;
+use App\Http\Controllers\EmployeeProfileController;
+use App\Http\Controllers\HRAnalyticsController;
+use App\Http\Controllers\language\LanguageController;
+use App\Http\Controllers\laravel_example\UserManagement;
+use App\Http\Controllers\LeaveManagementController;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\PayrollController;
-use App\Http\Controllers\HRAnalyticsController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\RecruitmentController;
-use App\Http\Controllers\UserAccountController;
-use App\Http\Controllers\CompensationController;
-use Illuminate\Notifications\DatabaseNotification;
-use App\Http\Controllers\EmployeeProfileController;
-use App\Http\Controllers\LeaveManagementController;
-use App\Http\Controllers\authentications\LoginBasic;
-use App\Http\Controllers\CompensationPlanController;
-use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\ShiftandschedulingController;
-use App\Http\Controllers\laravel_example\UserManagement;
+use App\Http\Controllers\UserAccountController;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::post('/notifications/{id}/mark-as-read', function ($id) {
@@ -33,7 +32,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/app/chat', [Chat::class, 'index'])->name('app-chat');
     Route::post('/logout', [App\Http\Controllers\LogoutController::class, 'logout'])->name('logout');
     Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
-    Route::get('/hr-analytics', [HRAnalyticsController::class, 'index'])->name('hr-analytics');
+
+    Route::controller(HRAnalyticsController::class)
+        ->group(function () {
+            Route::get('/hr-analytics', 'index')->name('hr-analytics');
+            Route::get('/hr-analytics/export-pdf', 'exportDashboardPdf')->name('dashboard.export-pdf');
+            Route::get('/hr-analytics/export-excel', 'exportDashboardExcel')->name('dashboard.export-excel');
+        });
 
     Route::controller(ClaimController::class)
         ->group(function () {

@@ -19,3 +19,14 @@
         });
     </script>
 @endif
+
+@if ($infoMessage)
+    <script>
+        Swal.fire({
+            icon: 'info',
+            title: "{{ $infoMessage }}",
+            showConfirmButton: true,
+            timer: 3000
+        });
+    </script>
+@endif

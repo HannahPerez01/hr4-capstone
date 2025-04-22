@@ -146,6 +146,10 @@ class PayrollController extends Controller
         // Fetch employees with selected job position
         $employees = Employee::where('job_position_id', $jobPositionId)->get();
 
+        if ($employees->isEmpty()) {
+            return redirect()->back()->with('info', 'No timesheet found to the selected job position and given date!');
+        }
+
         $employeeData = [];
 
         foreach ($employees as $employee) {
@@ -153,6 +157,10 @@ class PayrollController extends Controller
             $timesheets = Timesheet::where('employee_id', $employee->id)
                 ->whereBetween('date', [$request->from, $request->to])
                 ->get();
+
+            if ($timesheets->isEmpty()) {
+                return redirect()->back()->with('info', 'No timesheet found to the selected job position and given date!');
+            }
 
             $hoursWorked   = 0;
             $totalOvertime = 0;

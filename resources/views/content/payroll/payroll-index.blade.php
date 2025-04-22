@@ -18,18 +18,16 @@
 
     <div class="card">
         <div class="card">
-            {{-- <div>
-                <button type="button" class="btn btn-primary m-3"
-                    onclick="location.href = '{{ route('payroll-create') }}'">Add Payroll</button>
-            </div> --}}
 
             @if (session()->has('success'))
                 <x-alert successMessage="{{ session('success') }}" />
             @elseif(session()->has('error'))
                 <x-alert errorMessage="{{ session('error') }}" />
+            @elseif(session()->has('info'))
+                <x-alert infoMessage="{{ session('info') }}" />
             @endif
 
-            <div class="w-100 px-5 pt-5">
+            <div class="w-100 px-5 pt-5 d-flex">
                 <form action="{{ route('payroll.generate') }}" method="POST" class="row">
                     @method('POST')
                     @csrf
@@ -59,9 +57,16 @@
                         <button type="submit" class="btn btn-sm btn-primary">Generate Payroll with AI response</button>
                     </div>
                 </form>
+
+                <div class="">
+                    <button class="btn btn-secondary btn-sm d-flex w-full" onclick="printPayrollTable()">
+                        <i class="tf-icons ti ti-printer"></i>
+                        Print Payroll
+                    </button>
+                </div>
             </div>
 
-            <div class="card-datatable table-responsive p-5">
+            <div class="card-datatable table-responsive p-5" id="payroll-table-print">
                 <table class="datatables-projects table border-top" id="dataTable">
                     <thead>
                         <tr>
@@ -140,16 +145,10 @@
                                                     @csrf
                                                     @method('POST')
                                                     <button type="submit" class="dropdown-item">
-                                                        <i class="tf-icons ti ti-receipt"></i> Generate Payroll Records to Finance
+                                                        <i class="tf-icons ti ti-receipt"></i> Generate Payroll Records to
+                                                        Finance
                                                     </button>
                                                 </form>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item"
-                                                    href="{{ route('payroll-edit', ['id' => $payroll->id]) }}"
-                                                    data-bs-toggle="tooltip" title="Print">
-                                                    <span><i class="tf-icons ti ti-printer"></i></span> Print
-                                                </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item text-success"
@@ -187,5 +186,90 @@
         $(document).ready(function() {
             new DataTable('#dataTable'); // Use the correct ID
         });
+
+        function printPayrollTable() {
+            const table = document.querySelector('#dataTable');
+            const headers = table.querySelectorAll('thead tr th');
+            const rows = table.querySelectorAll('tbody tr');
+
+            let html = `
+            <html>
+                <head>
+                    <title>Payroll Report</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            padding: 20px;
+                        }
+
+                        h2 {
+                            text-align: center;
+                        }
+
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
+
+                        th, td {
+                            border: 1px solid #ccc;
+                            padding: 8px;
+                            text-align: left;
+                            font-size: 14px;
+                        }
+
+                        th {
+                            background-color: #f4f4f4;
+                        }
+
+                        .footer {
+                            margin-top: 40px;
+                            text-align: center;
+                            font-size: 12px;
+                            color: #666;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h2>Payroll Report</h2>
+                    <table>
+                        <thead>
+                            <tr>
+        `;
+
+            headers.forEach((th, index) => {
+                if (index !== headers.length - 1) { // Skip the last header (Action)
+                    html += `<th>${th.textContent}</th>`;
+                }
+            });
+
+            html += `</tr></thead><tbody>`;
+
+            rows.forEach(row => {
+                html += `<tr>`;
+                row.querySelectorAll('td').forEach((td, index) => {
+                    if (index !== row.children.length - 1) { // Skip the last column (Action)
+                        html += `<td>${td.textContent}</td>`;
+                    }
+                });
+                html += `</tr>`;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                    <div class="footer">Generated on ${new Date().toLocaleDateString()}</div>
+                </body>
+            </html>
+        `;
+
+            const newWindow = window.open('', '', 'width=900,height=700');
+            newWindow.document.write(html);
+            newWindow.document.close();
+            newWindow.focus();
+            newWindow.print();
+            newWindow.close();
+        }
     </script>
 @endsection

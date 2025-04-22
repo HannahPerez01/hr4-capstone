@@ -10,6 +10,7 @@ class Alert extends Component
 {
     public $successMessage;
     public $errorMessage;
+    public $infoMessage;
     /**
      * Create a new component instance.
      */
@@ -17,6 +18,7 @@ class Alert extends Component
     {
         $this->successMessage = session('success');
         $this->errorMessage = session('error');
+        $this->infoMessage = session('info');
     }
 
     /**
