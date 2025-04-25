@@ -105,6 +105,8 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/performance', 'index')->name('performance');
             Route::get('/performance/succession', 'succession')->name('performance-succession');
+            Route::put('/performance/succession/promote/{id}', 'promote')->name('succession-promote');
+            Route::put('/performance/succession/reject/{id}', 'reject')->name('succession-reject');
             Route::put('/performance/succession/request', 'successionRequest')->name('performance-succession-request');
         });
 

@@ -88,6 +88,7 @@ class TimesheetResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ReplicateAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

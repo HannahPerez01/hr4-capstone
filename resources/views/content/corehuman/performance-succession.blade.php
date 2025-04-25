@@ -37,7 +37,7 @@
             @elseif(session()->has('error'))
                 <x-alert errorMessage="{{ session('error') }}" />
             @endif
-            
+
             <div class="card-datatable table-responsive p-5">
                 <table class="datatables-projects table border-top" id="dataTable">
                     <thead>
@@ -47,6 +47,8 @@
                             <th>CURRENT POSITION</th>
                             <th>DEPARTMENT</th>
                             <th>STATUS</th>
+                            <th>PROMOTE STATUS</th>
+                            <th>ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,13 +61,36 @@
                                     'not ready' => 'bg-secondary text-white',
                                     default => 'bg-default',
                                 };
+                                $promoted_status = match (strtolower($succession->promoted_status)) {
+                                    'promoted' => 'bg-success text-white',
+                                    'rejected' => 'bg-danger text-white',
+                                    'pending' => 'bg-secondary text-white',
+                                    default => 'bg-default',
+                                };
                             @endphp
                             <tr>
                                 <td>{{ $succession->employee->employee_code }}</td>
                                 <td>{{ $succession->employee->name }}</td>
                                 <td>{{ $succession->current_position }}</td>
                                 <td>{{ $succession->department }}</td>
-                                <td class="badge rounded {{ $status }}">{{ $succession->status }}</td>
+                                <td>
+                                    <span class="badge rounded {{ $status }}">{{ $succession->status }}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge rounded {{ $promoted_status }}">{{ $succession->promoted_status }}</span>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm promote-button"
+                                        data-action="{{ route('succession-promote', ['id' => $succession->id]) }}"
+                                        data-name="{{ $succession->employee->name }}"
+                                        @if ($succession->promoted_status != 'Pending') disabled @endif>
+                                        Promote</button>
+                                    <button type="button" class="btn btn-danger btn-sm reject-button"
+                                        data-action="{{ route('succession-reject', ['id' => $succession->id]) }}"
+                                        data-name="{{ $succession->employee->name }}"
+                                        @if ($succession->promoted_status != 'Pending') disabled @endif>Reject</button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -80,6 +105,64 @@
     <script>
         $(document).ready(function() {
             new DataTable('#dataTable'); // Use the correct ID
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.promote-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    let actionUrl = this.getAttribute('data-action');
+                    let name = this.getAttribute('data-name');
+
+                    Swal.fire({
+                        title: "Are you sure you want to promote " + name + "?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#6c757d",
+                        confirmButtonText: "Yes, proceed!",
+                        showLoaderOnConfirm: true,
+                        preConfirm: () => {
+                            let form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = actionUrl;
+                            form.innerHTML = `
+                            @csrf
+                            @method('PUT')
+                        `;
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+                    });
+                });
+            });
+
+            document.querySelectorAll('.reject-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    let actionUrl = this.getAttribute('data-action');
+                    let name = this.getAttribute('data-name');
+
+                    Swal.fire({
+                        title: "Are you sure you want to reject " + name + "?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#6c757d",
+                        confirmButtonText: "Yes, proceed!",
+                        showLoaderOnConfirm: true,
+                        preConfirm: () => {
+                            let form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = actionUrl;
+                            form.innerHTML = `
+                            @csrf
+                            @method('PUT')
+                        `;
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+                    });
+                });
+            });
         });
     </script>
 @endsection

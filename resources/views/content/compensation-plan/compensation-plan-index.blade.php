@@ -83,14 +83,14 @@
                      <table border="1" class="table">
                          <tr>
                              <th>Level</th>
-                             <th>Level 1</th>
-                             <th>Level 2</th>
-                             <th>Level 3</th>
-                             <th>Level 4</th>
-                             <th>Level 5</th>
-                             <th>Level 6</th>
-                             <th>Level 7</th>
-                             <th>Level 8</th>
+                             <th>Step 1</th>
+                             <th>Step 2</th>
+                             <th>Step 3</th>
+                             <th>Step 4</th>
+                             <th>Step 5</th>
+                             <th>Step 6</th>
+                             <th>Step 7</th>
+                             <th>Step 8</th>
                          </tr>`;
 
                     level.groupLevel.forEach(groupLevel => {

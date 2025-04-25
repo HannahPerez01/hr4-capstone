@@ -22,10 +22,10 @@
 
     <div class="w-100">
         <div class="card">
-            <div class="px-5 pt-5">
+            {{-- <div class="px-5 pt-5">
                 <button class="btn  btn-primary btn-sm btn-flat" data-bs-toggle="modal" data-bs-target="#smallModal">Add
                     User</button>
-            </div>
+            </div> --}}
 
             @if (session()->has('success'))
                 <x-alert successMessage="{{ session('success') }}" />

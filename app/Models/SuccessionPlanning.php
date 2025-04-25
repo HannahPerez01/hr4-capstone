@@ -18,6 +18,7 @@ class SuccessionPlanning extends Model
         'readiness_level',
         'status',
         'request_status',
+        'promoted_status'
     ];
 
     public function employee()

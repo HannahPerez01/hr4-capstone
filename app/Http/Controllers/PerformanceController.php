@@ -1,13 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Enum\UserRoleEnum;
+use App\Enum\PromoteStatus;
+use App\Models\Performance;
 use App\Enum\RequestStatusEnum;
 use App\Enum\SuccessionStatusEnum;
-use App\Enum\UserRoleEnum;
-use App\Models\Performance;
 use App\Models\SuccessionPlanning;
 use App\Models\SuccessionPlanningRequest;
-use App\Models\User;
 use App\Notifications\SuccessionPlanningRequestNotification;
 
 class PerformanceController extends Controller
@@ -85,5 +86,33 @@ class PerformanceController extends Controller
         }
 
         return redirect()->back()->with('success', 'Request has been submitted. Wait for the HR2 Admin to approve it.');
+    }
+
+    public function promote(string $id)
+    {
+        $succession = $this->successionPlanning->find($id);
+
+        if (! $succession) {
+            return redirect()->back()->with('error', 'Succession not found!');
+        }
+
+        $succession->promoted_status = PromoteStatus::PROMOTED->value;
+        $succession->save();
+
+        return redirect()->back()->with('success', 'Promoted successfully');
+    }
+
+    public function reject(string $id)
+    {
+        $succession = $this->successionPlanning->find($id);
+
+        if (! $succession) {
+            return redirect()->back()->with('error', 'Succession not found!');
+        }
+
+        $succession->promoted_status = PromoteStatus::REJECTED->value;
+        $succession->save();
+
+        return redirect()->back()->with('success', 'Rejected successfully');
     }
 }
