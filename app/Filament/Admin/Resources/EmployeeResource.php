@@ -1,20 +1,21 @@
 <?php
 namespace App\Filament\Admin\Resources;
 
-use Filament\Tables;
-use App\Models\Employee;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use App\Enum\DepartmentEnum;
 use App\Enum\CivilStatusEnum;
+use App\Enum\DepartmentEnum;
 use App\Enum\EmployeeGenderEnum;
 use App\Enum\EmployeeStatusEnum;
 use App\Enum\EmploymentTypeEnum;
-use Filament\Resources\Resource;
+use App\Filament\Admin\Resources\EmployeeResource\Pages;
+use App\Models\Employee;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use App\Filament\Admin\Resources\EmployeeResource\Pages;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class EmployeeResource extends Resource
 {
@@ -77,7 +78,53 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('employee_code')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('email')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('age')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('gender')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('civil_status')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('present_address')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('jobPosition.title')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('department')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('employment_type')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('date_hired')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('status')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
