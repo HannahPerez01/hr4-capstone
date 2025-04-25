@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Enum\PayrollStatusEnum;
 use App\Http\Requests\PayrollRequest;
 use App\Models\Employee;
-use App\Models\Finance;
 use App\Models\JobPosition;
 use App\Models\Payroll;
 use App\Models\Timesheet;
@@ -12,6 +11,7 @@ use App\Models\User;
 use App\Notifications\PayslipNotification;
 use App\Services\GeminiService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class PayrollController extends Controller
@@ -216,7 +216,7 @@ class PayrollController extends Controller
                 'rd_ot_amount'        => $request->rd_ot_render ?? 0,
                 'sss'                 => 675,
                 'philhealth'          => 375,
-                'pagibig'             => 50,
+                'pag_ibig'            => 50,
                 'total_deductions'    => 1100,
                 'total_earnings'      => $total_earnings,
                 'status'              => PayrollStatusEnum::IN_PROGRESS->value,
@@ -268,18 +268,35 @@ class PayrollController extends Controller
             return redirect()->back()->with('errors', 'Payroll is not exists!');
         }
 
-        $finance = Finance::create([
-            'amount'       => $payroll->total_earnings,
-            'category'     => 'Disbursement',
-            'requested_by' => strtoupper(auth()->user()->role),
-            'status'       => 'Pending',
+        $amount    = $payroll->basic_salary_amount + $payroll->reg_ot_amount + $payroll->rd_ot_amount;
+        $fullName  = explode(' ', $payroll->employee->name, 2);
+        $firstName = $fullName[0];
+        $lastName  = $fullName[1] ?? '';
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'X-API-KEY'    => env('FINANCE_API_KEY'),
+        ])->post('https://financial.bcp-smsservices.com/api/create_employee_with_disbursement.php', [
+            "first_name"    => $firstName,
+            "last_name"     => $lastName,
+            "email"         => $payroll->employee->email,
+            "department_id" => 2,
+            "budget_id"     => 2,
+            "basic_salary"  => $amount,
+            "allowances"    => 0,
+            "deductions"    => $payroll->total_deductions,
+            "date_from"     => $payroll->from,
+            "date_to"       => $payroll->to,
         ]);
 
-        if (! $finance) {
-            return redirect()->back()->with('errors', 'There was an error in generating payroll records to finance!');
+        if ($response->successful()) {
+            return redirect()->back()->with('success', 'Payroll record generated to finance successfully!');
+        } else {
+            logger()->error('Finance API Error', [
+                'response' => $response->body(),
+            ]);
+            return redirect()->back()->with('errors', 'There was an error in generating payroll records to finance! ' . $response->body());
         }
-
-        return redirect()->back()->with('success', 'Payroll record generated to finance successfully!');
     }
 
 }
