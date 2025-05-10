@@ -1,10 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\DashboardExport;
+use App\Models\Employee;
 use App\Services\DashboardService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class HRAnalyticsController extends Controller
@@ -37,6 +38,32 @@ class HRAnalyticsController extends Controller
             'employeesByPositionChart'  => $employeesByPositionChart,
             'employeesGrowthOvertime'   => $employeesGrowthOvertime,
         ]);
+    }
+
+    public function generatePrintableDashboard(Request $request)
+    {
+        $data     = [];
+        $template = '';
+
+        match (strtolower($request->printable_dashboard)) {
+            'total employees' => $data           = Employee::query()->with('jobPosition')->get(),
+            'employees by gender' => $data       = Employee::query()->with('jobPosition')->get()->groupBy('gender'),
+            'employees by age category' => $data = Employee::query()->selectRaw("*, CASE WHEN age BETWEEN 18 AND 29 THEN '18 - 29' WHEN age BETWEEN 30 AND 39 THEN '30 - 39' WHEN age BETWEEN 40 AND 49 THEN '40 - 49' WHEN age BETWEEN 50 AND 59 THEN '50 - 59' WHEN age >= 60 THEN '> 60' END as age_category")->get()->groupBy('age_category'),
+            'employees by department' => $data   = Employee::query()->with('jobPosition')->get()->groupBy('department'),
+            'employees by position' => $data     = Employee::query()->with('jobPosition')->get()->groupBy('jobPosition.title'),
+            'employees growth overtime' => $data = Employee::query()->selectRaw('*, YEAR(date_hired) as year')->get()->groupBy('year'),
+        };
+
+        match (strtolower($request->printable_dashboard)) {
+            'total employees' => $template           = 'printable.total-employees',
+            'employees by gender' => $template       = 'printable.employees-by-gender',
+            'employees by age category' => $template = 'printable.employees-by-age-category',
+            'employees by department' => $template   = 'printable.employees-by-department',
+            'employees by position' => $template     = 'printable.employees-by-position',
+            'employees growth overtime' => $template = 'printable.employees-growth-overtime',
+        };
+
+        return view($template, ['data' => $data]);
     }
 
     public function exportDashboardPdf()

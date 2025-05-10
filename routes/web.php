@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/hr-analytics', 'index')->name('hr-analytics');
             Route::get('/hr-analytics/export-pdf', 'exportDashboardPdf')->name('dashboard.export-pdf');
             Route::get('/hr-analytics/export-excel', 'exportDashboardExcel')->name('dashboard.export-excel');
+            Route::post('/hr-analytics/generate-printable-dashboard', 'generatePrintableDashboard')->name('dashboard.generate-printable-dashboard');
         });
 
     Route::controller(ClaimController::class)
@@ -85,6 +86,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/employee-profile/view/{id}', 'view')->name('employee-profile-view');
             Route::get('/employee-profile/edit/{id}', 'edit')->name('employee-profile-edit');
             Route::put('/employee-profile/update/{id}', 'update')->name('employee-profile-update');
+            Route::post('/employee-profile/attach-file', 'attachFile')->name('employee-profile.attach-file');
         });
 
     Route::controller(CompensationController::class)
