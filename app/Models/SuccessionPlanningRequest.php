@@ -12,10 +12,16 @@ class SuccessionPlanningRequest extends Model
     protected $fillable = [
         'requestor_id',
         'status',
+        'job_position_id',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'requestor_id');
+    }
+
+    public function jobPosition(): BelongsTo
+    {
+        return $this->belongsTo(JobPosition::class, 'job_position_id');
     }
 }

@@ -24,12 +24,8 @@
     <div class="">
         <div class="card">
             <div class="pt-5 px-5">
-                <form action="{{ route('performance-succession-request') }}" method="POST">
-                    @csrf
-                    @method('PUT')
-
-                    <button class="btn btn-dark btn-sm" type="submit">Request to HR2</button>
-                </form>
+                <button class="btn btn-dark btn-sm" type="button" data-bs-toggle="modal"
+                    data-bs-target="#requestModal">Request to HR2</button>
             </div>
 
             @if (session()->has('success'))
@@ -77,25 +73,51 @@
                                     <span class="badge rounded {{ $status }}">{{ $succession->status }}</span>
                                 </td>
                                 <td>
-                                    <span
-                                        class="badge rounded {{ $promoted_status }}">{{ $succession->promoted_status }}</span>
+                                    <span class="badge rounded {{ $promoted_status }}">{{ $succession->promoted_status }}</span>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm promote-button"
                                         data-action="{{ route('succession-promote', ['id' => $succession->id]) }}"
-                                        data-name="{{ $succession->employee->name }}"
-                                        @if ($succession->promoted_status != 'Pending') disabled @endif>
+                                        data-name="{{ $succession->employee->name }}" @if ($succession->promoted_status != 'Pending') disabled @endif>
                                         Promote</button>
                                     <button type="button" class="btn btn-danger btn-sm reject-button"
                                         data-action="{{ route('succession-reject', ['id' => $succession->id]) }}"
-                                        data-name="{{ $succession->employee->name }}"
-                                        @if ($succession->promoted_status != 'Pending') disabled @endif>Reject</button>
+                                        data-name="{{ $succession->employee->name }}" @if ($succession->promoted_status != 'Pending') disabled @endif>Reject</button>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
-
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="requestModalLabel">Request to HR2</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('performance-succession-request') }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="my-2">
+                            <label for="position" class="form-label">Position</label>
+                            <select name="position" id="position" class="form-select">
+                                <option value="">Select Position</option>
+                                @foreach ($positions as $position)
+                                    <option value="{{ $position->id }}">{{ $position->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mt-4">
+                            <button class="btn btn-dark btn-sm" type="submit">Request</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -103,13 +125,13 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             new DataTable('#dataTable'); // Use the correct ID
         });
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll('.promote-button').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     let actionUrl = this.getAttribute('data-action');
                     let name = this.getAttribute('data-name');
 
@@ -126,9 +148,9 @@
                             form.method = 'POST';
                             form.action = actionUrl;
                             form.innerHTML = `
-                            @csrf
-                            @method('PUT')
-                        `;
+                                    @csrf
+                                    @method('PUT')
+                                `;
                             document.body.appendChild(form);
                             form.submit();
                         }
@@ -137,7 +159,7 @@
             });
 
             document.querySelectorAll('.reject-button').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     let actionUrl = this.getAttribute('data-action');
                     let name = this.getAttribute('data-name');
 
@@ -154,9 +176,9 @@
                             form.method = 'POST';
                             form.action = actionUrl;
                             form.innerHTML = `
-                            @csrf
-                            @method('PUT')
-                        `;
+                                    @csrf
+                                    @method('PUT')
+                                `;
                             document.body.appendChild(form);
                             form.submit();
                         }
