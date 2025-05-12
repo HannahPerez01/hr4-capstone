@@ -9,6 +9,7 @@ use App\Enum\EmploymentTypeEnum;
 use App\Filament\Admin\Resources\EmployeeResource\Pages;
 use App\Models\Employee;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -71,6 +72,15 @@ class EmployeeResource extends Resource
                 Select::make('status')
                     ->options(EmployeeStatusEnum::toOptions())
                     ->required(),
+
+                Repeater::make('skills')
+                    ->label('Skills')
+                    ->schema([
+                        TextInput::make('title')
+                            ->label('Skills')
+                            ->required(),
+                    ])
+                    ->collapsible(),
             ]);
     }
 

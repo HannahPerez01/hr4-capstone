@@ -1,17 +1,15 @@
 <?php
-
 namespace App\Models;
 
-use App\Models\Payroll;
-use App\Models\JobPosition;
 use App\Models\Compensation;
-use Spatie\MediaLibrary\HasMedia;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\JobPosition;
+use App\Models\Payroll;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Employee extends Model implements HasMedia
 {
@@ -32,7 +30,12 @@ class Employee extends Model implements HasMedia
         'employment_type',
         'date_hired',
         'status',
-        'resigned_at'
+        'resigned_at',
+        'skills',
+    ];
+
+    protected $casts = [
+        'skills' => 'array',
     ];
 
     public function registerMediaCollections(): void
