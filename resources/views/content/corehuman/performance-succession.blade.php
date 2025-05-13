@@ -41,6 +41,7 @@
                             <th>EMPLOYEE ID</th>
                             <th>EMPLOYEE NAME</th>
                             <th>CURRENT POSITION</th>
+                            <th>PROMOTE POSITION</th>
                             <th>DEPARTMENT</th>
                             <th>STATUS</th>
                             <th>PROMOTE STATUS</th>
@@ -68,6 +69,7 @@
                                 <td>{{ $succession->employee->employee_code }}</td>
                                 <td>{{ $succession->employee->name }}</td>
                                 <td>{{ $succession->current_position }}</td>
+                                <td>{{ $succession->promoted_to }}</td>
                                 <td>{{ $succession->department }}</td>
                                 <td>
                                     <span class="badge rounded {{ $status }}">{{ $succession->status }}</span>

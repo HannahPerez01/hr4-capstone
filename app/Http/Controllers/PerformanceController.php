@@ -1,18 +1,18 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Enum\UserRoleEnum;
 use App\Enum\PromoteStatus;
-use App\Models\JobPosition;
-use App\Models\Performance;
-use Illuminate\Http\Request;
 use App\Enum\RequestStatusEnum;
 use App\Enum\SuccessionStatusEnum;
+use App\Enum\UserRoleEnum;
+use App\Models\JobPosition;
+use App\Models\Performance;
 use App\Models\SuccessionPlanning;
-use Illuminate\Http\RedirectResponse;
 use App\Models\SuccessionPlanningRequest;
+use App\Models\User;
 use App\Notifications\SuccessionPlanningRequestNotification;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class PerformanceController extends Controller
 {
@@ -66,14 +66,16 @@ class PerformanceController extends Controller
             return redirect()->back()->with('error', 'You have pending request for this position. Please try again later once the status is changed.');
         }
 
-        $successionRequest               = $this->successionPlanningRequest;
-        $successionRequest->requestor_id = auth()->user()->id;
+        $successionRequest                  = $this->successionPlanningRequest;
+        $successionRequest->requestor_id    = auth()->user()->id;
         $successionRequest->job_position_id = $request->position;
         $successionRequest->save();
 
+        $jobPosition = $this->jobPosition->query()->find($request->position);
         $successions = $this->successionPlanning->query()
             ->where('status', SuccessionStatusEnum::READY_NOW->value)
             ->where('request_status', RequestStatusEnum::PENDING->value)
+            ->where('promoted_to', $jobPosition->title)
             ->get();
 
         foreach ($successions as $succession) {
