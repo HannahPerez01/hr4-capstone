@@ -17,6 +17,6 @@ class attendance extends Model
         'employee_name',
         'time_in',
         'time_out',
-        
+
     ];
 }

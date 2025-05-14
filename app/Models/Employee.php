@@ -62,4 +62,9 @@ class Employee extends Model implements HasMedia
     {
         return $this->belongsTo(User::class);
     }
+
+    public function applicantScores(): HasMany
+    {
+        return $this->hasMany(ApplicantScore::class);
+    }
 }

@@ -45,6 +45,9 @@
                             <th>DEPARTMENT</th>
                             <th>STATUS</th>
                             <th>PROMOTE STATUS</th>
+                            <th>SCORE</th>
+                            <th>SCORE STATUS</th>
+                            <th>SKILLS</th>
                             <th>ACTION</th>
                         </tr>
                     </thead>
@@ -77,6 +80,10 @@
                                 <td>
                                     <span class="badge rounded {{ $promoted_status }}">{{ $succession->promoted_status }}</span>
                                 </td>
+                                <td>{{ $succession->employee->applicantScores->first()?->score }}</td>
+                                <td>{{ $succession->employee->applicantScores->first()?->status }}</td>
+                                <td>{{ collect($succession->employee->skills)->map(fn($skill) => $skill['title'])->join(', ') }}</td>
+
                                 <td>
                                     <button type="button" class="btn btn-warning btn-sm promote-button"
                                         data-action="{{ route('succession-promote', ['id' => $succession->id]) }}"
