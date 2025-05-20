@@ -147,7 +147,7 @@ class PayrollController extends Controller
         $employees = Employee::where('job_position_id', $jobPositionId)->get();
 
         if ($employees->isEmpty()) {
-            return redirect()->back()->with('info', 'No timesheet found to the selected job position and given date!');
+            return redirect()->back()->with('info', 'There was no employees found to the selected job position!');
         }
 
         $employeeData = [];
